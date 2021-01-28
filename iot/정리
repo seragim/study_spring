@@ -1,0 +1,83 @@
+고객관리
+create table customer(
+id        number constraint customer_id_pk primary key,
+name      varchar2(50) not null,
+gender    varchar2(3) default '남',
+email     varchar2(50),
+phone     varchar2(13)
+);
+
+create sequence seq_customer
+start with 1 increment by 1;
+
+insert into customer(id, name, email, phone)
+values (seq_customer.nextval, '홍길동'
+			, 'hong@naver.com', '010-1234-5678');
+
+insert into customer(name, email)
+values ('심청', 'sim@daum.net');
+
+
+customer 테이블의 id 컬럼에 seq_customer의 nextval 가
+자동으로 적용이 되도록 하려면
+trigger 를 만들어 사용하자.
+
+create or replace trigger trg_customer
+	before insert on customer
+	for each row
+begin
+	select seq_customer.nextval into :new.id from dual;
+end;
+/
+
+- DB 연결처리
+1. db.properties 파일생성후
+  driver, url, username, password 을 선언한다
+2. Spring Bean Configuration File 을 만들어
+   DBCP로 DB연결객체를 사용하기위한 DBCP 객체, 
+   Mybatis를 사용하기 위한 SqlSessionFactoryBean 객체, 
+   쿼리문 실행을 위한 SqlSessionTemplate 객체를 
+   bean 태그로 등록한다.
+3. Mapper 파일을 만들어둘 package 를 선언하고
+   해당 패키지에 mapper 파일을 만들어둔다.
+   각 mapper 파일을 mapper 태그를 선언할 수 있도록
+   Mapper DOCTYPE 을 선언한다. - mybatis.org 참고
+        
+
+사용자의 브라우저를 통한 요청
+-> Controller
+-> Service
+-> DAO -> Mapper  
+-> VO(데이터객체)
+
+- 프로젝트(예:iot) 에서 변경할 사항
+  우클릭 > Build path > Configure Build path
+   > 좌측메뉴 
+   1. Java Compiler 버전을  1.8 로 변경
+   2. Project Facets : Java 버전을 1.8 로 변경
+
+- pom.xml 에서 변경할 사항
+1. 상단 properties 
+   > java-version 을 1.8 로 변경
+2. 하단 maven-compiler-plugin > 
+   configuration > source 와 target 버전을 1.8 로 변경
+3. 상단 properties 
+   > org.springframework-version 버전을 5.2.8 RELEASE 로 변경
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
