@@ -14,7 +14,7 @@ import customer.CustomerVO;
 public class CustomerController {
 	@Autowired private CustomerServiceImpl service;
 	
-	//고객정보삭제처리 요청
+	//고객정보 삭제처리 요청
 	@RequestMapping("/delete.cu")
 	public String delete(int id) {
 		//해당 고객정보를 DB에서 삭제한다
@@ -24,7 +24,7 @@ public class CustomerController {
 	}
 	
 	
-	//고객정보변경저장처리 요청
+	//고객정보 변경저장처리 요청
 	@RequestMapping("/update.cu")
 	public String update(CustomerVO vo) {
 		//화면에서 변경입력한 정보를 DB에 변경저장한다
@@ -34,7 +34,7 @@ public class CustomerController {
 	}
 	
 	
-	//고객정보수정화면 요청
+	//고객정보 수정화면 요청
 	@RequestMapping("/modify.cu")
 	public String modify(int id, Model model) {
 		//해당 고객정보를 DB에서 조회한다.
@@ -43,7 +43,7 @@ public class CustomerController {
 		return "customer/modify";
 	}
 	
-	//고객상세정보화면 요청
+	//고객 상세정보화면 요청
 	@RequestMapping("/detail.cu")
 	public String detail(Model model, int id) {
 		//해당 고객정보를 DB에서 조회한다.
@@ -53,7 +53,7 @@ public class CustomerController {
 	}
 	
 	
-	//고객정보저장처리 요청
+	//고객정보 저장처리 요청
 	@RequestMapping("/insert.cu")
 	public String insert(CustomerVO vo) {
 		//화면에서 입력한 고객정보를 DB에 저장한다

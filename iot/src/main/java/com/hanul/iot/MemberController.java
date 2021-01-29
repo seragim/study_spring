@@ -19,11 +19,12 @@ import member.MemberVO;
 public class MemberController {
 	@Autowired private MemberServiceImpl service;
 	
-	//아이디 중복확인
+	//아이디중복확인
 	@ResponseBody @RequestMapping("/id_check")
 	public boolean id_check(String id) {
 		return service.member_id_check(id);
 	}
+	
 	
 	//회원가입화면 요청
 	@RequestMapping("/member")
@@ -32,10 +33,12 @@ public class MemberController {
 		return "member/join";
 	}
 	
+	
+	
 	private String naver_client_id = "jPxaVjEk_r6x4Um2qAq_";
 	private String kakao_client_id = "b65584860d08a47acb4e4e6ba518f2fd";
 	
-	//카카오로그인 화면 요청
+	//카카오로그인요청
 	@RequestMapping("/kakaologin")
 	public String kakaologin(HttpSession session) {
 		// https://kauth.kakao.com/oauth/authorize?client_id={REST_API_KEY}
@@ -60,7 +63,7 @@ public class MemberController {
 				|| error!=null )
 			return "redirect:/";
 		
-		//��ū �߱޹ޱ�
+		//토큰 발급받기
 		StringBuffer url = new StringBuffer(
 			"https://kauth.kakao.com/oauth/token?grant_type=authorization_code");
 		url.append("&client_id=").append(kakao_client_id);
@@ -81,7 +84,7 @@ public class MemberController {
 //		curl -v -X GET "https://kapi.kakao.com/v2/user/me" \
 //		  -H "Authorization: Bearer {ACCESS_TOKEN}"
 		
-		//��������� ��������
+		//사용자정보 가져오기
 		url = new StringBuffer("https://kapi.kakao.com/v2/user/me");
 		json = new JSONObject(
 				common.requestAPI(url, token_type+" "+access_token) );
@@ -94,15 +97,15 @@ public class MemberController {
 			vo.setSocial_email( json.getString("email"));
 			String gender 
 			= json.has("gender") ? json.getString("gender") : "male";
-			vo.setGender( gender.equals("female") ? "��" : "��" );
+			vo.setGender( gender.equals("female") ? "여" : "남" );
 		
 			json = json.getJSONObject("profile");
 			vo.setName( json.getString("nickname") );
-			//īī�� �α��� ������ DB�� ������ update, ������ insert
+			//카카오 로그인 정보가 DB에 있으면 update, 없으면 insert
 			
-			if( service.member_social_id(vo) ) { //id�� ������ update
+			if( service.member_social_id(vo) ) { //id가 있으면 update
 				service.member_social_update(vo);
-			}else { //id�� ������ insert
+			}else { //id가 없으면 insert
 				service.member_social_insert(vo);
 			}
 			session.setAttribute("loginInfo", vo);
@@ -110,14 +113,14 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	//네이버 로그인 화면 요청
+	//네이버로그인요청
 	@RequestMapping("/naverlogin")
 	public String naverlogin(HttpSession session) {
 		//https://nid.naver.com/oauth2.0/authorize?
 		//response_type=code&client_id=CLIENT_ID
 		//&state=STATE_STRING&redirect_uri=CALLBACK_URL
 		
-		//UUID �� �������ڸ� ����
+		//UUID 로 랜덤문자를 생성
 		String state = UUID.randomUUID().toString();
 		session.setAttribute("state", state);
 		
@@ -136,11 +139,11 @@ public class MemberController {
 	@RequestMapping("/navercallback")
 	public String navercallback(HttpSession session, String state
 								, String code, String error) {
-		//���� ��ū�� ��ġ���� �ʰų� �ݹ���з� ���� �߻��� ��ū�� �߱޹��� �� ���� --> Ȩ����
+		//상태 토큰이 일치하지 않거나 콜백실패로 에러 발생시 토큰을 발급받을 수 없다 --> 홈으로
 		if( !state.equals((String)session.getAttribute("state"))
 				|| error!=null ) return "redirect:/";
-		//����ó��: code ���� ����
-		//������ū�� �߱޹ޱ� ���� ��û
+		//정상처리: code 값이 있음
+		//접근토큰을 발급받기 위한 요청
 		//https://nid.naver.com/oauth2.0/token?grant_type=authorization_code
 		//&client_id=?&client_secret=?&code=?&state=? 
 		StringBuffer url = new StringBuffer(
@@ -153,9 +156,9 @@ public class MemberController {
 		String access_token = json.getString("access_token");
 		String token_type = json.getString("token_type");
 		
-		//����� ���������� ��ȸ
-		//��ûURL: https://openapi.naver.com/v1/nid/me
-		//��û���: Authorization: {��ū Ÿ��] {���� ��ū]
+		//사용자 프로필정보 조회
+		//요청URL: https://openapi.naver.com/v1/nid/me
+		//요청헤더: Authorization: {토큰 타입] {접근 토큰]
 		
 		url = new StringBuffer("https://openapi.naver.com/v1/nid/me");
 		json = new JSONObject( common.requestAPI(url, token_type+" "+access_token) );
@@ -168,21 +171,21 @@ public class MemberController {
 			vo.setSocial_type("naver");
 			vo.setId(json.getString("id"));
 			vo.setGender( json.has("gender") 
-					    ? ( json.getString("gender").equals("F") ? "��" :"��" ) 
-					    : "��");
+					    ? ( json.getString("gender").equals("F") ? "여" :"남" ) 
+					    : "남");
 			vo.setName( json.has("nickname") 
 					  ? json.getString("nickname")  
 //					  ? ( json.getString("nickname").isEmpty() 
 //							  ? json.getString("name") : json.getString("nickname"))
 					  : json.getString("name"));
 			vo.setSocial_email( json.getString("email") );
-			//{  "gender": "F", "nickname": "������"}
+			//{  "gender": "F", "nickname": "가나다"}
 			//{ }
 			
 			
-			//���̹��α����� ó���̶�� insert�ϰ�, �ƴϸ� update
-			//�ش� ���̹����̵� �����ϴ����� ���� �ľ�
-			if( service.member_social_id(vo) ) { //���̵� �����
+			//네이버로그인인 처음이라면 insert하고, 아니면 update
+			//해당 네이버아이디가 존재하는지를 먼저 파악
+			if( service.member_social_id(vo) ) { //아이디 존재시
 				service.member_social_update(vo);
 			}else {
 				service.member_social_insert(vo);	
@@ -194,7 +197,7 @@ public class MemberController {
 	
 	
 	
-	//로그아웃 화면 요청
+	//로그아웃처리 요청
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {
 		
@@ -207,7 +210,7 @@ public class MemberController {
 		//&logout_redirect_uri=?
 		//&state=? HTTP/1.1
 //				Host: kauth.kakao.com
-		//īī���α����� ��� īī�������� �Բ� �α׾ƿ��ǰ� ����
+		//카카오로그인인 경우 카카오계정도 함께 로그아웃되게 하자
 		if( social!=null && social.equals("kakao") ) {
 			StringBuffer url = new StringBuffer(
 					"https://kauth.kakao.com/oauth/logout"); 
@@ -219,15 +222,15 @@ public class MemberController {
 			return "redirect:/";
 	}
 	
-	//IoT 자체 로그인
+	//IoT 자체 로그인처리 요청
 	@ResponseBody @RequestMapping("/iotlogin")
 	public boolean login(String id, String pw, HttpSession session) {
-		//ȭ�鿡�� �Է��� ���̵�/����� ��ġ�ϴ� ȸ�������� ��ȸ�ؿ´�
+		//화면에서 입력한 아이디/비번이 일치하는 회원정보를 조회해온다
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
 		map.put("pw", pw);
 		MemberVO vo = service.member_login(map);
-		//�α����� ȸ�������� ���ǿ� ��Ƶд�
+		//로그인한 회원정보를 세션에 담아둔다
 		session.setAttribute("loginInfo", vo);
 		return vo==null ? false : true;
 	}
