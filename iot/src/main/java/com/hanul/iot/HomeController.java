@@ -21,7 +21,7 @@ public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
 	public String home(HttpSession session) {
 		//session.setAttribute("category", "");
 		session.removeAttribute("category");

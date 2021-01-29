@@ -62,13 +62,13 @@ var join = {
 	
 	pw_status:function(pw){
 		var reg = /[^a-zA-Z0-9]/g;
-		var upper = /[A-z]/g, lower = /[a-z]/g, digit = /[0-9]/g;
+		var upper = /[A-Z]/g, lower = /[a-z]/g, digit = /[0-9]/g;
 		if(pw=='') return this.common.empty;
 		else if(pw.match(space)) return this.common.space;
 		else if(reg.test(pw)) return this.pw.invalid;
 		else if(pw.length < 5 ) return this.common.min;
 		else if(pw.length > 10 ) return this.common.max;
-		else if(!upper.test(pw) || lower.test(pw) || digit.test(pw)) return this.pw.lack;
+		else if(!upper.test(pw) || !lower.test(pw) || !digit.test(pw)) return this.pw.lack;
 		else return this.pw.valid;
 	},
 	

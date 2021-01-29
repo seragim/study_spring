@@ -7,5 +7,14 @@
 </head>
 <body>
 <h3>공지글 목록</h3>
+
+<table>
+<tr>
+	<th>제목</th>
+	<th>작성자</th>
+	<th>작성일자</th>
+</tr>
+</table>
+
 </body>
 </html>

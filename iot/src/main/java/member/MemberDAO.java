@@ -14,7 +14,7 @@ public class MemberDAO implements MemberService {
 	@Override
 	public boolean member_join(MemberVO vo) {
 		// TODO Auto-generated method stub
-		return false;
+		return sql.insert("member.mapper.join", vo) > 0 ? true : false;
 	}
 
 	@Override

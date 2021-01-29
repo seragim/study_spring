@@ -3,6 +3,7 @@ package com.hanul.iot;
 import java.util.HashMap;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
@@ -19,6 +20,21 @@ import member.MemberVO;
 public class MemberController {
 	@Autowired private MemberServiceImpl service;
 	
+	//회원가입처리 요청
+	@ResponseBody @RequestMapping(value="/join", produces="text/html; charset=utf-8")
+	public String join(MemberVO vo, HttpSession session , HttpServletRequest request) {
+		//화면에서 입력한 회원정보를 DB에 저장한 후 홈으로 연결
+		StringBuffer msg = new StringBuffer("<script>");
+		if(service.member_join(vo)) {
+			common.sendEmail(session, vo.getEmail(), vo.getName());
+			msg.append("alert('회원가입을 축하합니다! ^^'); location='"+ request.getContextPath() +"'; ");
+		}else {
+			msg.append("alert('회원가입 실패'); history.go(-1)");
+		}
+		msg.append("</script>");
+		return msg.toString();
+	}
+	
 	//아이디중복확인
 	@ResponseBody @RequestMapping("/id_check")
 	public boolean id_check(String id) {
@@ -32,8 +48,6 @@ public class MemberController {
 		session.setAttribute("category", "join");
 		return "member/join";
 	}
-	
-	
 	
 	private String naver_client_id = "jPxaVjEk_r6x4Um2qAq_";
 	private String kakao_client_id = "b65584860d08a47acb4e4e6ba518f2fd";

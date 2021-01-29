@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,13 +18,13 @@ input[name=addr] { width:calc(100% - 24px); }
 <h3>회원가입</h3>
 
 <p class='w-pct50 right' style='margin:0 auto; padding-bottom:10px'>* 는 필수입력항목입니다</p>
-<form method="post" action="insert">
+<form method="post" action="join">
 <table class='w-pct50'>
 <tr><th class='w-px160'>* 성명</th>
 	<td><input type='text' name='name'/></td>
 </tr>
 <tr><th>* 아이디</th>
-	<td><input type='text' name='id' class="chk"/>
+	<td><input type='text' name='id' class="chk" />
 	<a class="btn-fill-s" id="btn-id">아이디중복확인</a><br/>
 		<div class="valid">아이디를 입력하세요(영문소문자, 숫자만 가능)</div>
 	</td>
@@ -68,11 +69,59 @@ input[name=addr] { width:calc(100% - 24px); }
 </table>
 
 </form>
+<div class="btnSet">
+<a class="btn-fill" onclick="go_join()">회원가입</a>
+<a class="btn-empty" href="<c:url value="/"/>" >취소</a>
+</div>
+
+
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/js/all.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="js/join_check.js"></script>
 <script type="text/javascript">
+function go_join(){
+	if( $('[name=name]').val() =='' ){
+		alert('성명을 입력하세요!');
+		$('[name=name]').focus();
+		return;
+	}
+	
+	//중복확인 한 경우 : chked클래스가 있음
+	if( $('[name=id]').hasClass('chked') ){
+		if( $('[name=id]').siblings('div').hasClass('invalid') ){
+			alert('회원가입불가!\n' + join.id.unusable.desc);		
+			$('[name=id]').focus();
+			return;
+		}
+	//중복확인 하지않은 경우
+	}else{
+		if(!item_check( $('[name=id]') )) return;
+		else{
+			alert(join.id.valid.desc);
+			$('[name=id]').focus();
+			return;
+		}
+	}
+	
+	if(!item_check( $('[name=pw]') )) return;
+	if(!item_check( $('[name=pw_ck]') )) return;
+	if(!item_check( $('[name=email]') )) return;
+	
+	$('form').submit();
+	
+}
+
+function item_check( tag ){
+	var result = join.tag_status( tag );
+	if( result.code == 'invalid' ){
+		alert('회원가입 불가!\n' + result.desc);
+		tag.focus();
+		return false;
+	} else return true;
+}
+
 $(function(){
 	var today = new Date();
 	var endDay = new Date(today.getFullYear()-13, today.getMonth(), today.getDate()-1);
@@ -111,6 +160,7 @@ function id_check(){
 			$id.siblings('div').text(response.desc);
 			$id.siblings('div').removeClass();
 			$id.siblings('div').addClass(response.code);
+			$id.addClass('chked');
 
 		},error: function(req, text){
 			alert(text+" : " + req.status);
@@ -118,7 +168,14 @@ function id_check(){
 	});
 }
 
-$('.chk').on('keyup', function(){
+$('.chk').on('keyup', function(e){
+	if( $(this).attr('name')=='id' ){
+		if( e.keyCode==13 ){
+			id_check();
+			return;
+		}else
+			$(this).removeClass('chked');
+	}
 	validate($(this));
 });
 

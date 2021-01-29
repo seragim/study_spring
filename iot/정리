@@ -1,4 +1,22 @@
-고객관리
+--공지사항관리
+create table notice(
+id			number constraint notice_id_pk primary key,
+title		varchar2(300) not null,
+content		varchar2(4000) not null,
+writer		varchar2(50) not null,
+writedate	date default sysdate,
+readcnt		number default 0,
+constraint notice_writer_fk foreign key(writer) references member(id)
+);
+
+--PK인 id 에 지정할 시퀀스
+create sequence seq_notice
+start with 1 increment by 1;
+
+insert into notice(id, title, content, writer)
+values(seq_notice.nextval, '공지글입니다', '관리자가 작성한 첫번째 공지글입니다', 'admin');
+
+--고객관리
 create table customer(
 id        number constraint customer_id_pk primary key,
 name      varchar2(50) not null,
