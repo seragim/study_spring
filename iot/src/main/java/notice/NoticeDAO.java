@@ -13,7 +13,7 @@ public class NoticeDAO implements NoticeService {
 
 	@Override
 	public void notice_insert(NoticeVO vo) {
-		// TODO Auto-generated method stub
+		sql.insert("notice.mapper.insert", vo);
 
 	}
 
@@ -25,7 +25,7 @@ public class NoticeDAO implements NoticeService {
 	@Override
 	public NoticeVO notice_view(int id) {
 		// TODO Auto-generated method stub
-		return null;
+		return sql.selectOne("notice.mapper.view", id);
 	}
 
 	@Override
