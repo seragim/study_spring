@@ -10,13 +10,14 @@
 <h3>공지글 목록</h3>
 
 <div id="list-top">
-<ul>
-	<c:if test="${loginInfo.admin eq 'Y' }">
-		<li><a class="btn-fill" href="new.no">글쓰기</a></li>
-	</c:if>
-</ul>
+	<div>
+	<ul>
+		<c:if test="${loginInfo.admin eq 'Y' }">
+			<li><a class="btn-fill" href="new.no">글쓰기</a></li>
+		</c:if>
+	</ul>
+	</div>
 </div>
-<br>
 <table>
 <tr>
 	<th class="w-px60">번호</th>

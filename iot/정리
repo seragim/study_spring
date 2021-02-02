@@ -9,6 +9,12 @@ readcnt		number default 0,
 constraint notice_writer_fk foreign key(writer) references member(id)
 );
 
+--파일첨부 관련 컬럼 추가
+alter table notice
+add ( filename varchar2(300), filepath varchar2(300) );
+
+
+
 --PK인 id 에 지정할 시퀀스
 create sequence seq_notice
 start with 1 increment by 1;
