@@ -13,10 +13,10 @@ public class NoticeDAO implements NoticeService {
 
 	@Override
 	public void notice_insert(NoticeVO vo) {
-		// TODO Auto-generated method stub
+		sql.insert("notice.mapper.insert", vo);
 
 	}
-
+	
 	@Override
 	public List<NoticeVO> notice_list() {
 		return sql.selectList("notice.mapper.list");
@@ -25,19 +25,24 @@ public class NoticeDAO implements NoticeService {
 	@Override
 	public NoticeVO notice_view(int id) {
 		// TODO Auto-generated method stub
-		return null;
+		return sql.selectOne("notice.mapper.view", id);
 	}
 
 	@Override
 	public void notice_update(NoticeVO vo) {
-		// TODO Auto-generated method stub
-
+		sql.update("notice.mapper.update", vo);
 	}
 
 	@Override
 	public void notice_delete(int id) {
-		// TODO Auto-generated method stub
+		sql.delete("notice.mapper.delete", id);
 
+	}
+
+	@Override
+	public void notice_read(int id) {
+		sql.update("notice.mapper.read", id);
+		
 	}
 
 }

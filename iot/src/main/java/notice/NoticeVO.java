@@ -3,10 +3,22 @@ package notice;
 import java.sql.Date;
 
 public class NoticeVO {
-	private int id, readcnt;
-	private String title, content, writer;
+	private int id, readcnt, no;
+	private String title, content, writer, name;
 	private Date writedate;
 	
+	public int getNo() {
+		return no;
+	}
+	public void setNo(int no) {
+		this.no = no;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public int getId() {
 		return id;
 	}

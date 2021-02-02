@@ -63,13 +63,22 @@ table tr td label:not(:first-child) { margin-left:20px; }
 
 ul { list-style:none; padding:0; }
 #list-top { padding:20px 10%; }
+#list-top div { height: 36px; }
 #list-top ul { margin:0; display:flex; }
 #list-top ul li:not(:first-child) { margin-left:3px; }
 #list-top ul li * { vertical-align:middle; } 
+#list-top ul:first-child { float: left; }
+#list-top ul:last-child { float: right; }
+
 select { height:32px;  }
 .left { text-align:left; }
 .right { text-align:right; }
 
+input[name=title] { width: calc(98%); }
+textarea[name=content] { width: calc(100%); resize: none; height: 150px;}
+.file-img { width: 22px; }
+#attach-file, #delete-file { display: none; }
+#delete-file { color: red; }
 
 .w-pct80 { width:80% }
 .w-pct60 { width:60% }
@@ -79,6 +88,7 @@ select { height:32px;  }
 .w-px200 { width:200px; }
 .w-px250 { width:200px; }
 .w-px100 { width:100px; }
+.w-px120 { width:120px; }
 .w-px80 { width:80px; }
 .w-px60 { width:60px; }
 .w-px40 { width:40px; }
