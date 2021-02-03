@@ -49,34 +49,6 @@
 <a class="btn-empty" href="list.no">취소</a>
 </div>
 
-<script type="text/javascript">
-$('#attach-file').on('change', function(){
-	if( this.files[0] ){
-		$('#file-name').text( this.files[0].name );
-		$('#delete-file').css('display', 'inline-block');
-	}
-});
-
-$('#delete-file').on('click', function(){
-	$('#file-name').text('');
-	$('#attach-file').val('');
-	$('#delete-file').css('display', 'none');
-});
-
-
-function emptyCheck(){
-	var ok = true;
-	$('.chk').each(function(){
-		if( $(this).val() == '' ){
-			alert( $(this).attr('title') + '을 입력하세요');
-			$(this).focus();
-			ok = false;
-			return ok;
-		}
-		
-	});
-	return ok;
-}
-</script>
+<script type="text/javascript" src="js/file_check.js"></script>
 </body>
 </html>

@@ -27,6 +27,14 @@
 	<th>내용</th>
 	<td colspan="5" class="left">${fn:replace(vo.content, crlf, '<br>')}</td>
 </tr>
+<tr>
+	<th>첨부파일</th>
+	<td colspan="5" class="left">${vo.filename}
+	<c:if test="${!empty vo.filename}">
+		<a href="download.no?id=${vo.id}"><i class="fas fa-download"></i></a>
+	</c:if>
+	</td>
+</tr>
 </table>
 
 <div class="btnSet">

@@ -2,6 +2,7 @@ package com.hanul.iot;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import common.CommonService;
 import member.MemberServiceImpl;
 import member.MemberVO;
 import notice.NoticeServiceImpl;
@@ -18,6 +20,14 @@ import notice.NoticeVO;
 @Controller
 public class NoticeController {
 	@Autowired private NoticeServiceImpl service;
+	
+	//첨부파일 다운로드 처리 요청 -> 화면연결 필요없으므로 void
+	@RequestMapping("/download.no")
+	public void download(int id, HttpSession session, HttpServletResponse response) {
+		//해당 공지글에 첨부된 파일을 서버로부터 다운로드한다
+		NoticeVO vo = service.notice_view(id);
+		common.fileDownload(vo.getFilename(), vo.getFilepath(), session, response);
+	}
 	
 	//공지글 수정처리 요청
 	@RequestMapping("/update.no")
@@ -55,11 +65,19 @@ public class NoticeController {
 		return "notice/view";
 	}
 	
+	@Autowired private CommonService common;
+	
 	//신규공지글 저장처리 요청
 	@RequestMapping("/insert.no")
-	public String insert(NoticeVO vo, HttpSession session) {
+	public String insert(NoticeVO vo, HttpSession session, MultipartFile file) {
 		MemberVO member = (MemberVO)session.getAttribute("loginInfo");
 		vo.setWriter(member.getId());
+		//첨부된 파일이 있다면 데이터객체에 파일정보를 담는다
+		if( !file.isEmpty() ) {
+			vo.setFilename(file.getOriginalFilename());
+			vo.setFilepath(common.fileUpload(session, file, "notice"));
+		}
+		
 		//화면에서 입력한 정보를 DB에 저장한 후 목록화면연결
 		service.notice_insert(vo);
 		return "redirect:list.no";

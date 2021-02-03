@@ -22,8 +22,8 @@
 </select>
 
 <insert id="insert">
-	insert into notice ( id, title, content, writer )
-	values ( seq_notice.nextval, #{title}, #{content}, #{writer} )
+	insert into notice ( id, title, content, writer, filename, filepath )
+	values ( seq_notice.nextval, #{title}, #{content}, #{writer}, #{filename}, #{filepath} )
 </insert>
 		
 <select id="list" resultType="notice.NoticeVO">
