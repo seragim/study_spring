@@ -75,8 +75,7 @@ public class CustomerController {
 	public String list(Model model, HttpSession session) {
 		session.setAttribute("category", "cu");
 		//DB에서 고객목록을 조회해와 목록화면에 출력할 수 있도록 한다
-		model.addAttribute("list"
-				, service.customer_list() );
+		model.addAttribute("list", service.customer_list() );
 		return "customer/list";
 	}
 	
