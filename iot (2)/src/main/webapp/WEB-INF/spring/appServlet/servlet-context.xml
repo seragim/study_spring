@@ -28,7 +28,8 @@
 		<beans:property name="order" value="0"/>
 	</beans:bean>
 	<beans:bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
-		<beans:property name="definitions" value="/WEB-INF/views/tiles/tiles.xml"/>
+		<beans:property name="definitions" 
+			value="/WEB-INF/views/tiles/tiles.xml"/>
 	</beans:bean>
 	
 	<context:component-scan base-package="com.hanul.iot" />
