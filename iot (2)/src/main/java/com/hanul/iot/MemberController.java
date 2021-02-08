@@ -21,15 +21,13 @@ public class MemberController {
 	@Autowired private MemberServiceImpl service;
 	
 	//회원가입처리 요청
-	@ResponseBody @RequestMapping(value="/join"
-						, produces="text/html; charset=utf-8")
+	@ResponseBody @RequestMapping(value="/join", produces="text/html; charset=utf-8")
 	public String join(MemberVO vo, HttpSession session, HttpServletRequest request) {
 		//화면에서 입력한 회원정보를 DB에 저장한 후 홈으로 연결
 		StringBuffer msg = new StringBuffer("<script>");
 		if( service.member_join(vo) ) {
 			common.sendEmail(session, vo.getEmail(), vo.getName());
-			msg.append("alert('회원가입을 축하합니다 ^^'); location='"+
-									 request.getContextPath() + "'; ");
+			msg.append("alert('회원가입을 축하합니다 ^^'); location='"+request.getContextPath() + "'; ");
 //			msg.append("alert('회원가입을 축하합니다 ^^'); location='index'; ");
 		}else {
 			msg.append("alert('회원가입 실패 ㅠㅠ'); history.go(-1)");
