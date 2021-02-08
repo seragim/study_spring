@@ -51,8 +51,6 @@ public class MemberController {
 		return "member/join";
 	}
 	
-	
-	
 	private String naver_client_id = "jPxaVjEk_r6x4Um2qAq_";
 	private String kakao_client_id = "b65584860d08a47acb4e4e6ba518f2fd";
 	

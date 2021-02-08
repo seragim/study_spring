@@ -115,8 +115,7 @@ public class CommonService {
 		mail.setHtmlMsg(msg.toString());
 		
 		EmailAttachment file = new EmailAttachment();
-		file.setPath( session.getServletContext().getRealPath("resources")
-				  	+ "/css/common.css");
+		file.setPath( session.getServletContext().getRealPath("resources") + "/css/common.css");
 		mail.attach(file);
 		
 		file = new EmailAttachment();
