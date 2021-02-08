@@ -6,15 +6,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h3>공지글쓰기</h3>
-
-<!--  
-첨부파일 전송시
-1. form 태그는 반드시 post 로 지정
-2. enctype 을 multipart/form-data 로 지정
--->
-
-<form method="post" action="insert.no" enctype="multipart/form-data" >
+<h3>답글쓰기</h3>
+<form method="post" action="reply_insert.no" enctype="multipart/form-data" >
 <table>
 <tr><th class='w-px160'>제목</th>
 	<td><input type='text' name='title' title='제목' class='chk' /></td>
@@ -36,13 +29,16 @@
 	</td>
 </tr>
 </table>
+<input type="hidden" name="root" value="${vo.root}" />
+<input type="hidden" name="root" value="${vo.step}" />
+<input type="hidden" name="root" value="${vo.indent}" />
+
 </form>
 <div class='btnSet'>
 <a class='btn-fill' onclick="if( emptyCheck() ) $('form').submit()">저장</a>
-<a class='btn-empty' href='list.no'>취소</a>
+<a class='btn-empty' href='view.no?id=${vo.id}'>취소</a>
 </div>
 
 <script type="text/javascript" src="js/file_check.js"></script>
-
 </body>
 </html>

@@ -34,12 +34,16 @@
 </table>
 
 <div class='btnSet'>
-	<a class='btn-fill' href='list.no'>목록으로</a>
+	<a class='btn-fill' href='list.no?curPage=${page.curPage}&search=${page.search}&keyword=${page.keyword}'>목록으로</a>
 	<!-- 관리자로 로그인한 경우만 수정/삭제 권한 있음 -->
 	<c:if test='${loginInfo.admin eq "Y"}'>
 	<a class='btn-fill' href='modify.no?id=${vo.id}'>수정</a>
 	<a class='btn-fill' 
 	onclick="if( confirm('정말 삭제?') ){ location='delete.no?id=${vo.id}' }">삭제</a>
+	</c:if>
+	<!-- 로그인된 경우는 답글작성 가능 -->
+	<c:if test="${!empty loginInfo}">
+	<a class="btn-fill" href="reply.no?id=${vo.id}">답글쓰기</a>
 	</c:if>
 </div>
 
