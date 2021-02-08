@@ -6,12 +6,26 @@ content  varchar2(4000) not null,
 writer   varchar2(50) not null,
 writedate date default sysdate,
 readcnt   number default 0,
+filename varchar2(300), 
+filepath varchar2(300),
+root	number,
+step	number default 0,
+indent	number default 0,
 constraint notice_writer_fk foreign key(writer) references member(id)
 );
 
 파일첨부 관련 컬럼 추가
 alter table notice
 add ( filename varchar2(300), filepath varchar2(300) );
+
+답글관련 컬럼추가
+alter table notice
+add ( root	number,
+		step	number default 0,
+		indent	number default 0);
+
+--root값을 id로 지정		
+update notice set root = id;
 
 PK인 id 에 지정할 시퀀스
 create sequence seq_notice

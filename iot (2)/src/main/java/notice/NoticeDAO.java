@@ -41,6 +41,19 @@ public class NoticeDAO implements NoticeService {
 		sql.update("notice.mapper.read", id);
 	}
 
+	@Override
+	public NoticePage notice_list(NoticePage page) {
+		page.setTotalList(sql.selectOne("notice.mapper.totalList", page));
+		page.setList( sql.selectList("notice.mapper.list", page));
+		return page;
+	}
+
+	@Override
+	public void notice_reply_insert(NoticeVO vo) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 
 
