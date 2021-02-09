@@ -23,6 +23,21 @@
 	from notice where id = #{id}
 </select>
 
+<insert id="reply_insert">
+<!-- 원글의 step보다  step이 큰 글의 step = step+1 -->
+{
+call declare begin
+	<![CDATA[
+	update notice set step = step +1 where root = #{root} and step > #{step};
+	]]>
+	
+	insert into notice( id, root, title, content, writer, filename, filepath, step, indent)
+	values( seq_notice.nextval, #{root}, #{title}, #{content}, #{writer}, #{filename, jdbcType=VARCHAR}, #{filepath, jdbcType=VARCHAR}, #{step}+1, #{indent}+1 );
+
+end
+}
+</insert>
+
 <insert id="insert">
 	insert into notice ( id, root, title, content, writer, filename, filepath )
 	values ( seq_notice.nextval, seq_notice.currval, #{title}, #{content}, #{writer}
@@ -55,7 +70,7 @@
 	(select rownum no,  n.*, (select name from member m
 			 				 where m.id=n.writer) name
 	from (select * from notice <include refid="search_where" />
-	      order by id) n
+	      order by root, step desc) n
 	order by no desc)
 	where no between #{beginList} and #{endList}
 

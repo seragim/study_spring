@@ -6,7 +6,7 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	
 	<context:component-scan 
-			base-package="notice, common, member, employee, customer"/>
+			base-package="board, notice, common, member, employee, customer"/>
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<import resource="classpath:data/default.xml"/>

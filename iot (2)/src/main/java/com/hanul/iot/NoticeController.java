@@ -33,6 +33,9 @@ public class NoticeController {
 			vo.setFilename( file.getOriginalFilename() );
 			vo.setFilepath( common.fileUpload(session, file, "notice") );
 		}
+		MemberVO user = (MemberVO)session.getAttribute("loginInfo");
+		vo.setWriter( user.getId() );
+		service.notice_reply_insert(vo);
 		return "redirect:list.no";
 	}
 	

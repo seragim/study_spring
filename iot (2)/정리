@@ -1,3 +1,29 @@
+--방명록 관리
+create table board(
+id			number constraint board_id_pk primary key,
+title		varchar2(300) not null,
+content		varchar2(4000) not null,
+writer		varchar2(50) not null,
+writedate	date default sysdate,
+readcnt		number default 0,
+filename	varchar2(300),
+filepath	varchar2(300),
+constraint board_writer_fk foreign key(writer)
+references member(id) on delete cascade
+);
+
+--시퀀스 생성
+create sequence seq_board start with 1 increment by 1;
+
+--시퀀스를 만들어서 board테이블의 pk인 id컬럼에 넣기 (컴파일 정상적으로 안될때는 or replace 넣기)
+create trigger trg_board
+	before insert on board
+	for each row
+begin
+	select seq_board.nextval into :new.id from dual;
+end;
+/
+
 --공지사항관리
 create table notice(
 id       number constraint notice_id_pk primary key,

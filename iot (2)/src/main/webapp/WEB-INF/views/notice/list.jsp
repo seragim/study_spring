@@ -38,7 +38,11 @@
 </tr>
 <c:forEach items="${page.list}" var="vo">
 <tr><td>${vo.no}</td>
-	<td class='left'><a href='view.no?id=${vo.id}'>${vo.title}</a></td>
+	<td class='left'>
+		<c:forEach var="i" begin="1" end="${vo.indent}">
+		${i eq vo.indent ? '<img src="imgs/re.gif"/>' : '&nbsp;&nbsp;' }
+		</c:forEach>
+		<a href='view.no?id=${vo.id}'>${vo.title}</a></td>
 	<td>${vo.name}</td>
 	<td>${vo.writedate}</td>
 </tr>

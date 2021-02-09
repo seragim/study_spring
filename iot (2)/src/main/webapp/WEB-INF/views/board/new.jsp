@@ -6,8 +6,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h3>답글쓰기</h3>
-<form method="post" action="reply_insert.no" enctype="multipart/form-data" >
+<h3>방명록 글쓰기</h3>
+
+
+<form method="post" action="insert.bo" enctype="multipart/form-data" >
 <table>
 <tr><th class='w-px160'>제목</th>
 	<td><input type='text' name='title' title='제목' class='chk' /></td>
@@ -29,16 +31,13 @@
 	</td>
 </tr>
 </table>
-<input type="hidden" name="root" value="${vo.root}" />
-<input type="hidden" name="step" value="${vo.step}" />
-<input type="hidden" name="indent" value="${vo.indent}" />
-
 </form>
 <div class='btnSet'>
 <a class='btn-fill' onclick="if( emptyCheck() ) $('form').submit()">저장</a>
-<a class='btn-empty' href='view.no?id=${vo.id}'>취소</a>
+<a class='btn-empty' href='list.bo'>취소</a>
 </div>
 
 <script type="text/javascript" src="js/file_check.js"></script>
+
 </body>
 </html>
