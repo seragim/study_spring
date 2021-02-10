@@ -20,7 +20,7 @@ table th, table td {
 	border:1px solid;
 	padding: 5px 10px; 
 }
-table tr td a:hover{ font-weight:bold; } 
+table tr td a:hover, ul.grid li div:first-child a:hover { font-weight:bold; } 
 
 .btnSet { margin-top:20px; }
 a.btn-fill, a.btn-empty {
@@ -68,6 +68,13 @@ ul { list-style:none; padding:0; }
 #list-top ul li * { vertical-align:middle; } 
 #list-top ul:first-child { float:left; }
 #list-top ul:last-child { float:right; }
+
+ul.grid { width: 80%; margin: 0 10%; }
+.grid li { float: left; width: 19%; height: 150px; border: 1px solid gray; box-sizing: border-box; }
+.grid li div { text-align: left; padding: 10px; }
+.grid li:not(:nth-child(5n)) { margin: 0 1.25% 20px 0; }
+.grid li div:nth-child(1) { height: 60px; }
+.grid li div:nth-child(2) { padding: 0 10px; }
 
 select { height:32px; }
 .left { text-align:left; }

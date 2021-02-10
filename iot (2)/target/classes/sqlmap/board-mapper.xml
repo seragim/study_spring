@@ -2,6 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board.mapper">
 
+<update id="read">
+	update board set readcnt = readcnt +1 where id = #{id}
+</update>
+
+<select id="view" resultType="board.BoardVO">
+	select b.*, (select name from member 
+				where member.id=writer) name 
+	from board b
+	where id = #{id}
+</select>
+
 <sql id="search_where">
 	<if test="search == 'title' or search == 'content'">
 		where ${search} like '%' || #{keyword} || '%'

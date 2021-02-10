@@ -10,8 +10,14 @@ public class PageVO {
 	private int beginList, endList; // 각 페이지에 보여질 목록번호
 	private int curBlock; // 현재블럭
 	private int beginPage, endPage; //  각 블럭에 보여질 페이지번호
-	private String search, keyword;//검색조건, 검색어
+	private String search, keyword, viewType = "list";//검색조건, 검색어
 	
+	public String getViewType() {
+		return viewType;
+	}
+	public void setViewType(String viewType) {
+		this.viewType = viewType;
+	}
 	public String getSearch() {
 		return search;
 	}

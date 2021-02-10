@@ -23,3 +23,12 @@ function emptyCheck(){
 	});
 	return ok;
 }
+
+//선택한 파일이 이미지인지 판단
+function isImage(filename){
+	//abc.txt, abc.png, abc.hwp, abc.JPG
+	var ext = filename.substring( filename.lastIndexOf('.')+1 ).toLowerCase();
+	var imgs = ['jpg', 'jpeg', 'png', 'gif', 'bmp'];
+	if(imgs.indexOf(ext) > -1) return true;
+	else return false;
+}
