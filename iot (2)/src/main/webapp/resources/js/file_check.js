@@ -9,6 +9,7 @@ $('#delete-file').on('click', function(){
 	$('#file-name').text('');
 	$('#attach-file').val('');
 	$('#delete-file').css('display', 'none');
+	if($('#preview').length > 0) $('#preview').html( '' );	//삭제시 이미지 미리보기 태그가 있는경우 미리보기 이미지 없애기
 });
 
 function emptyCheck(){
@@ -32,3 +33,22 @@ function isImage(filename){
 	if(imgs.indexOf(ext) > -1) return true;
 	else return false;
 }
+/*선택한 첨부파일이 이미지파일인 경우 미리보기되게*/
+$('#attach-file').on('change', function(){
+	var attach = this.files[0];
+	if( attach ){
+		if( isImage(attach.name) ){
+			var img = '<img src="" class="file-img" id="preview-img" />';
+			$('#preview').html( img );
+			
+			var reader = new FileReader();
+			reader.onload = function(e){
+				$('#preview-img').attr('src', e.target.result);
+			}
+			reader.readAsDataURL( attach );
+			
+		}else{
+			$('#preview').html( '' );
+		}
+	}
+});

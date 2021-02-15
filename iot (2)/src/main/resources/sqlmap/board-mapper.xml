@@ -2,6 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board.mapper">
 
+<select id="comment_list" resultType="board.BoardCommentVO">
+	select (select name from member m where m.id=writer) name,
+			to_char(writedate, 'yyyy-mm-dd hh24:mi:ss') writedate, c.* 
+	from board_comment c
+	where pid = #{pid}
+	order by id desc
+</select>
+
+<insert id="comment_insert">
+	insert into board_comment ( pid, content, writer )
+	values ( #{pid}, #{content}, #{writer} )
+</insert>
+
+<update id="update">
+	update board set title = #{title}, content = #{content}, filename = #{filename, jdbcType=VARCHAR}, filepath = #{filepath, jdbcType=VARCHAR} 
+	where id = #{id}
+</update>
+
+<delete id="delete">
+	delete from board where id = #{id}
+</delete>
+
 <update id="read">
 	update board set readcnt = readcnt +1 where id = #{id}
 </update>

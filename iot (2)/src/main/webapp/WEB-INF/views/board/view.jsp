@@ -19,7 +19,8 @@
 	background-color: #000; opacity: 0.3; display: none;
  }
  
- .popup { width: 100%; height:100%; }
+.popup { width: 100%; height:100%; }
+#comment_regist span { width: 50%; float: left; }
 
 </style>
 
@@ -57,8 +58,32 @@
 </table>
 
 <div class="btnSet">
-	<a href="list.bo" class="btn-fill">목록으로</a>
-	
+	<a href="javascript:$('form').submit()" class="btn-fill">목록으로</a>
+	<!-- 로그인한 사용자가 적성한 글에 대해 수정/삭제 권한 가짐  -->
+	<c:if test="${loginInfo.id eq vo.writer}">
+	<a class="btn-fill" onclick="$('form').attr('action', 'modify.bo'); $('form').submit();">수정</a>
+	<a class="btn-fill" onclick="if( confirm('정말 삭제하시겠습니까?') ){ location='delete.bo?id=${vo.id}' }">삭제</a>
+	</c:if>
+</div>
+
+<form action="list.bo" method="post">
+<input type="hidden" name="id" value="${vo.id }"/>
+<input type="hidden" name="curPage" value="${page.curPage }"/>
+<input type="hidden" name="search" value="${page.search }"/>
+<input type="hidden" name="keyword" value="${page.keyword }"/>
+<input type="hidden" name="pageList" value="${page.pageList }"/>
+<input type="hidden" name="viewType" value="${page.viewType }"/>
+</form>
+
+<div style="margin: 0 auto; padding-top: 20px; width: 500px;">
+	<div id="comment_regist">
+		<span class="left"><strong>댓글작성</strong></span>
+		<span class="right"><a class="btn-fill-s" onclick="comment_regist()">댓글등록</a></span>
+		<textarea id="comment" style="margin-top: 5px; width: 99%; height: 60px; resize: none;"></textarea>
+	</div>
+	<div id="comment_list" style="text-align: left;">
+		
+	</div>
 </div>
 
 <div id="popup-background" onclick="$('#popup, #popup-background').css('display', 'none');"></div>
@@ -66,6 +91,47 @@
 
 <script type="text/javascript" src="js/file_check.js"></script>
 <script type="text/javascript">
+function comment_regist(){
+	if( ${empty loginInfo} ){
+		alert('댓글을 등록하려면 로그인하세요!');
+		return;
+	}else if( $.trim($('#comment').val()) == '' ){
+		alert('댓글을 입력하세요!');
+		$('#comment').val('');
+		$('#comment').focus();
+		return;
+	}
+	
+	$.ajax({
+		url: 'board/comment/insert',
+		data: { pid:${vo.id}, content:$('#comment').val() },
+		success: function( response ){
+			if( response ) {
+				alert('댓글이 등록되었습니다!');
+				$('#comment').val('');
+				comment_list();
+			}else{
+				alert('댓글등록 실패');
+			}
+		},error: function(req, text){
+			alert(text+':'+req.status);
+		}
+		
+		
+	});
+}
+
+function comment_list(){
+	$.ajax ({
+		url: 'board/comment/${vo.id}',
+		success: function(){
+		
+		},error: function(req, text){
+			alert(text+':'+req.status);
+		}
+		
+	});
+}
 
 $(function(){
 	//첨부된 파일이 있고, 그 파일이 이미지라면 미리보기에 이미지가 보이게

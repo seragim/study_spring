@@ -38,32 +38,7 @@
 <a class='btn-empty' href='list.bo'>취소</a>
 </div>
 
-<script type="text/javascript" src="js/file_check.js"></script>
-<script type="text/javascript">
-/*선택한 첨부파일이 이미지파일인 경우 미리보기되게*/
-$('#attach-file').on('change', function(){
-	var attach = this.files[0];
-	if( attach ){
-		if( isImage(attach.name) ){
-			var img = '<img src="" class="file-img" id="preview-img" />';
-			$('#preview').html( img );
-			
-			var reader = new FileReader();
-			reader.onload = function(e){
-				$('#preview-img').attr('src', e.target.result);
-			}
-			reader.readAsDataURL( attach );
-			
-		}else{
-			$('#preview').html( '' );
-		}
-	}
-});
-//삭제시도 이미지 없애기
-$('#delete-file').on('click', function(){
-	$('#preview').html( '' );
-});
+<script type="text/javascript" src="js/file_check.js?v=<%=new java.util.Date().getTime()%>"></script>
 
-</script>
 </body>
 </html>

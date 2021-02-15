@@ -1,3 +1,24 @@
+--방명록 댓글관리
+create table board_comment(
+id			number constraint board_comment_id_pk primary key,
+pid			number constraint board_comment_pid_fk references board(id) on delete cascade,
+content		varchar2(4000) not null,
+writer		varchar2(50) constraint board_comment_writer_fk references member(id) on delete cascade,
+writedate	date default sysdate
+);
+
+--방명록 댓글관리 시퀀스생성
+create sequence seq_board_comment start with 1 increment by 1;
+
+--트리거
+create or replace trigger trg_board_comment
+	before insert on board_comment
+	for each row
+begin
+	select seq_board_comment.nextval into :new.id from dual;
+end;
+/
+
 --방명록 관리
 create table board(
 id			number constraint board_id_pk primary key,
