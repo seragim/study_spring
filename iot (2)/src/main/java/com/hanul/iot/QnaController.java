@@ -12,14 +12,11 @@ import qna.QnaServiceImpl;
 
 @Controller
 public class QnaController {
-	@Autowired QnaServiceImpl service;
-	@Autowired QnaPage page;
 
 	//질문게시판 이동
 	@RequestMapping("/list.qa")
 	public String list(HttpSession session, Model model) {
 		session.setAttribute("category", "qa");
-		service.qna_list();
 		
 		return "qna/list";
 	}

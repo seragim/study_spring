@@ -1,3 +1,27 @@
+--질문게시판관리
+create table qna(
+id        number constraint qna_id_pk primary key,
+title     varchar2(300) not null,
+content   varchar2(4000) not null,
+writer    varchar2(50) not null,
+writedate date default sysdate,
+filename  varchar2(300),
+filepath  varchar2(300),
+readcnt   number default 0,
+constraint qna_writer_fk foreign key(writer) references member(id)
+);
+
+create sequence seq_qna start with 1 increment by 1;
+
+--질문게시판 트리거
+create trigger trg_qna
+	before insert on qna
+	for each row
+begin
+	select seq_qna.nextval into :new.id from dual;
+end;
+/
+
 --방명록 댓글관리
 create table board_comment(
 id			number constraint board_comment_id_pk primary key,
