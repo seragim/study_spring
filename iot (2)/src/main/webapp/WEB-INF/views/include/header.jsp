@@ -10,6 +10,7 @@
 		<li><a class="${category eq 'no' ? 'active' : ''}" href='list.no'>공지사항</a></li>
 		<li><a class="${category eq 'bo' ? 'active' : ''}" href='list.bo'>방명록</a></li>
 		<li><a class="${category eq 'da' ? 'active' : ''}" href='list.da'>공공데이터</a></li>
+		<li><a class="${category eq 'qa' ? 'active' : ''}" href='list.qa'>질문게시판</a></li>
 	</ul>
 	</div>
 	

@@ -12,12 +12,12 @@
 	position: absolute; left: 50%; top: 50%; transform:translate(-50%, -50%);
 	width: 350px; height: 350px;
 	border: 2px solid #666; display: none;
- }
+}
 
 #popup-background { 
 	position: absolute; left: 0; top: 0; width: 100%; height: 100%;
 	background-color: #000; opacity: 0.3; display: none;
- }
+}
  
 .popup { width: 100%; height:100%; }
 #comment_regist span { width: 50%; float: left; }
@@ -91,6 +91,7 @@
 
 <script type="text/javascript" src="js/file_check.js"></script>
 <script type="text/javascript">
+comment_list();
 function comment_regist(){
 	if( ${empty loginInfo} ){
 		alert('댓글을 등록하려면 로그인하세요!');
@@ -124,7 +125,8 @@ function comment_regist(){
 function comment_list(){
 	$.ajax ({
 		url: 'board/comment/${vo.id}',
-		success: function(){
+		success: function( response ){
+			$('#comment_list').html(response);
 		
 		},error: function(req, text){
 			alert(text+':'+req.status);

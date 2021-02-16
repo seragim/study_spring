@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board.mapper">
 
+<delete id="comment_delete">
+	delete from board_comment where id = #{id}
+</delete>
+
+<update id="comment_update">
+	update board_comment set content = #{content} where id = #{id}
+</update>
+
 <select id="comment_list" resultType="board.BoardCommentVO">
 	select (select name from member m where m.id=writer) name,
 			to_char(writedate, 'yyyy-mm-dd hh24:mi:ss') writedate, c.* 

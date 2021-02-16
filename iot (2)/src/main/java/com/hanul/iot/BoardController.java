@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,11 +28,27 @@ public class BoardController {
 	@Autowired private BoardPage page;
 	@Autowired private CommonService common;
 	
+	//방명록 댓글삭제 요청
+	@ResponseBody @RequestMapping("/board/comment/delete/{id}")
+	public void comment_delete(@PathVariable int id) {
+		service.board_comment_delete(id);
+	}
+	
 	//방명록 댓글목록 조회 요청
 	@RequestMapping("/board/comment/{pid}")
 	public String comment_list(@PathVariable int pid, Model model) {
 		model.addAttribute("list", service.board_comment_list(pid));
+		model.addAttribute("crlf", "\r\n");
+		model.addAttribute("lf", "\n");
+		
 		return "board/comment/comment_list";
+	}
+	
+	//방명록 댓글변경저장처리 요청
+	@ResponseBody @RequestMapping(value="/board/comment/update", produces="application/text; charset=utf-8;")
+	public String comment_update(@RequestBody BoardCommentVO vo) {
+		//화면에서 변경입력한 정보를 DB에 저장한 후 호출한 곳으로 간다
+		return service.board_comment_update(vo) > 0 ? "성공^^" : "실패ㅠㅠ";
 	}
 	
 	//방명록 댓글저장 처리 요청
