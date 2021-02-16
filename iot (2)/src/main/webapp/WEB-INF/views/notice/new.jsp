@@ -6,7 +6,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h3>공지글쓰기</h3>
+<h3>공지글 쓰기</h3>
 
 <!--  
 첨부파일 전송시

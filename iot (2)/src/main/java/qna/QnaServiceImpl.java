@@ -2,14 +2,16 @@ package qna;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class QnaServiceImpl implements QnaService {
+	@Autowired QnaDAO dao;
 
 	@Override
 	public void qna_insert(QnaVO vo) {
-		// TODO Auto-generated method stub
+		dao.qna_insert(vo);
 		
 	}
 
@@ -41,6 +43,12 @@ public class QnaServiceImpl implements QnaService {
 	public void qna_delete(int id) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public QnaPage qna_list(QnaPage page) {
+		// TODO Auto-generated method stub
+		return dao.qna_list(page);
 	}
 
 	

@@ -4,10 +4,16 @@ import java.sql.Date;
 
 public class QnaVO {
 	
-	private int id, readcnt;
-	private String title, writer, content, name, filename, filepath;
+	private int id, no, readcnt;
+	private String title, writer, content, name;
 	private Date writedate;
 	
+	public int getNo() {
+		return no;
+	}
+	public void setNo(int no) {
+		this.no = no;
+	}
 	public int getId() {
 		return id;
 	}
@@ -44,25 +50,12 @@ public class QnaVO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getFilename() {
-		return filename;
-	}
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
-	public String getFilepath() {
-		return filepath;
-	}
-	public void setFilepath(String filepath) {
-		this.filepath = filepath;
-	}
 	public Date getWritedate() {
 		return writedate;
 	}
 	public void setWritedate(Date writedate) {
 		this.writedate = writedate;
 	}
-	
 	
 
 }
