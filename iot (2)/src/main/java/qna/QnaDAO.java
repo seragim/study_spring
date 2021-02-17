@@ -20,13 +20,13 @@ public class QnaDAO implements QnaService{
 	@Override
 	public List<QnaVO> qna_list() {
 		// TODO Auto-generated method stub
-		return null;
+		return sql.selectList("qna.mapper.list");
 	}
 
 	@Override
 	public QnaVO qna_view(int id) {
 		// TODO Auto-generated method stub
-		return null;
+		return sql.selectOne("qna.mapper.view", id);
 	}
 
 	@Override
@@ -49,6 +49,7 @@ public class QnaDAO implements QnaService{
 
 	@Override
 	public QnaPage qna_list(QnaPage page) {
+		page.setTotalList(sql.selectOne("qna.mapper.totalList", page));
 		page.setList( sql.selectList("qna.mapper.list", page) );
 		return page;
 	}

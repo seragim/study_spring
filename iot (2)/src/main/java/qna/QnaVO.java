@@ -4,10 +4,28 @@ import java.sql.Date;
 
 public class QnaVO {
 	
-	private int id, no, readcnt;
+	private int id, no, readcnt, root, step, indent;
 	private String title, writer, content, name;
 	private Date writedate;
 	
+	public int getRoot() {
+		return root;
+	}
+	public void setRoot(int root) {
+		this.root = root;
+	}
+	public int getStep() {
+		return step;
+	}
+	public void setStep(int step) {
+		this.step = step;
+	}
+	public int getIndent() {
+		return indent;
+	}
+	public void setIndent(int indent) {
+		this.indent = indent;
+	}
 	public int getNo() {
 		return no;
 	}

@@ -28,6 +28,7 @@
 	</ul>
 	</div>
 </div>
+<input type="hidden" name="curPage" value="1" />
 </form>
 
 <table>
@@ -40,12 +41,14 @@
 <c:forEach items="${page.list}" var="vo">
 <tr>
 	<td>${vo.no }</td>
-	<td class="left">${vo.title}</td>
+	<td class="left"><a href="view.qa?id=${vo.id}">${vo.title}</a></td>
 	<td>${vo.name }</td>
 	<td>${vo.writedate }</td>
 </tr>
 </c:forEach>
 </table>
-
+<div class="btnSet">
+	<jsp:include page="/WEB-INF/views/include/page.jsp"/>
+</div>
 </body>
 </html>

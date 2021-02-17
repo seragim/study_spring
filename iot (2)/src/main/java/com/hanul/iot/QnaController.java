@@ -19,6 +19,13 @@ public class QnaController {
 	@Autowired private QnaServiceImpl service;
 	@Autowired private QnaPage page;
 	
+	//질문글 보기화면 요청
+	@RequestMapping("/view.qa")
+	public String view(Model model, int id) {
+		model.addAttribute("vo", service.qna_view(id));
+		return "qna/view";
+	}
+	
 	//질문글 저장처리 요청
 	@RequestMapping("/insert.qa")
 	public String insert(QnaVO vo, HttpSession session) {

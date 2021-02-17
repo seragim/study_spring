@@ -18,13 +18,13 @@ public class QnaServiceImpl implements QnaService {
 	@Override
 	public List<QnaVO> qna_list() {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.qna_list();
 	}
 
 	@Override
 	public QnaVO qna_view(int id) {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.qna_view(id);
 	}
 
 	@Override
