@@ -31,8 +31,8 @@
 	<a class="btn-fill" href="list.qa">목록으로</a>
 	<!-- 본인으로 로그인된 경우 질문글 수정/삭제 가능 -->
 	<c:if test="${loginInfo.id eq vo.writer}">
-	<a class="btn-fill" >수정</a>
-	<a class="btn-fill" >삭제</a>
+	<a class="btn-fill" href="modify.qa?id=${vo.id}">수정</a>
+	<a class="btn-fill" onclick="if( confirm('정말 삭제하시겠습니까?') ){ location='delete.qa?id=${vo.id}' }">삭제</a>
 	</c:if>
 </div>
 </body>

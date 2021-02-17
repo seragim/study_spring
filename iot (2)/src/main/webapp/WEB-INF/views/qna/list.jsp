@@ -24,7 +24,10 @@
 		<li><a class="btn-fill">검색</a></li>
 	</ul>
 	<ul>
+		<!-- 로그인한 경우 작성가능 -->
+		<c:if test="${!empty loginInfo}">
 		<li><a class="btn-fill" href="new.qa">글쓰기</a></li>
+		</c:if>
 	</ul>
 	</div>
 </div>
@@ -37,6 +40,7 @@
 	<th>제목</th>
 	<th class="w-px120">작성자</th>
 	<th class="w-px120">작성일자</th>
+	<th class="w-px120">첨부파일</th>
 </tr>
 <c:forEach items="${page.list}" var="vo">
 <tr>
@@ -44,6 +48,7 @@
 	<td class="left"><a href="view.qa?id=${vo.id}">${vo.title}</a></td>
 	<td>${vo.name }</td>
 	<td>${vo.writedate }</td>
+	<td></td>
 </tr>
 </c:forEach>
 </table>

@@ -35,13 +35,13 @@ public class QnaServiceImpl implements QnaService {
 
 	@Override
 	public void qna_update(QnaVO vo) {
-		// TODO Auto-generated method stub
+		dao.qna_update(vo);
 		
 	}
 
 	@Override
 	public void qna_delete(int id) {
-		// TODO Auto-generated method stub
+		dao.qna_delete(id);
 		
 	}
 

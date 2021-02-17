@@ -37,13 +37,12 @@ public class QnaDAO implements QnaService{
 
 	@Override
 	public void qna_update(QnaVO vo) {
-		// TODO Auto-generated method stub
-		
+		sql.update("qna.mapper.update", vo);
 	}
 
 	@Override
 	public void qna_delete(int id) {
-		// TODO Auto-generated method stub
+		sql.delete("qna.mapper.delete", id);
 		
 	}
 
