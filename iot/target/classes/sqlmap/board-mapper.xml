@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board.mapper">
+
+<update id="comment_update">
+	update board_comment set content = #{content} where id = #{id}
+</update>
+
+<delete id="comment_delete">
+	delete from board_comment where id = #{id}
+</delete>
+
+
+<select id="comment_list" resultType="board.BoardCommentVO">
+	select (select name from member m where m.id=writer) name, 
+		   to_char(writedate, 'yyyy-mm-dd hh24:mi:ss') writedate, c.* 
+	from board_comment c
+	where pid = #{pid}
+	order by id desc
+</select>
+
+<insert id="comment_insert">
+	insert into board_comment ( pid, content, writer )
+	values ( #{pid}, #{content}, #{writer} )
+</insert>
+
+
+<update id="update">
+	update board set title = #{title}, content = #{content}
+	 			, filename = #{filename, jdbcType=VARCHAR}
+	 			, filepath = #{filepath, jdbcType=VARCHAR}
+    where id = #{id}
+</update>
+
+<delete id="delete">
+	delete from board where id = #{id}
+</delete>
+
+<update id="read">
+	update board set readcnt = readcnt + 1 where id = #{id}
+</update>
+
+<select id="view" resultType="board.BoardVO">
+	select b.*, (select name from member 
+	             where member.id=writer) name 
+    from board b
+	where id = #{id}
+</select>
+
+
+<sql id="search_where">
+	<if test=" search == 'title' or search == 'content' ">
+	where ${search} like '%' || #{keyword} || '%'
+	</if>
+	<if test=" search == 'writer' ">
+	where <include refid="writer_where"/>
+	</if>
+	<if test=" search=='all' ">
+	where title like '%' || #{keyword} || '%'
+	or content like '%' || #{keyword} || '%'
+	or <include refid="writer_where"/>
+	</if>
+</sql>
+<sql id='writer_where'>
+	writer in (select id from member where name like '%' || #{keyword} || '%')
+</sql>
+
+<insert id="insert">
+	insert into board ( title, content, writer, filename, filepath )
+	values ( #{title}, #{content}, #{writer}
+		   , #{filename, jdbcType=VARCHAR}, #{filepath, jdbcType=VARCHAR} )
+</insert>
+
+<select id='list' resultType="board.BoardVO">
+	select b.*, (select name from member m where m.id=writer) name from 
+	(select b.*, rownum no from 
+	(select * from board <include refid="search_where"/>
+	order by id) b) b
+	where no between #{beginList} and #{endList}
+	order by no desc 
+</select>
+
+<select id="totalList" resultType="integer">
+	select count(*) from board <include refid="search_where"/>
+</select>
+
+</mapper>
+
+
+
+
+

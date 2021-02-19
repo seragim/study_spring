@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="notice.mapper">
+
+<update id="update">
+	update notice set title = #{title}, content = #{content}
+					, filename = #{filename, jdbcType=VARCHAR}
+					, filepath = #{filepath, jdbcType=VARCHAR}
+	where id = #{id}
+</update>
+
+<delete id="delete">
+	delete from notice where id = #{id}
+</delete>
+
+<update id="read">
+	update notice set readcnt = readcnt+1 where id=#{id}
+</update>
+
+<select id="view" resultType="notice.NoticeVO">
+	select notice.*, (select name from member
+	                  where member.id=notice.writer) name 
+	from notice where id = #{id}
+</select>
+
+<insert id="reply_insert">
+<!-- 	원글의 step보다 step이 큰 글의 step = step+1 -->
+<!-- 	step = 원글step + 1, indent = 원글indent +1 -->
+{	
+call declare begin	
+	<![CDATA[
+	update notice set step = step+1 where root = #{root} and step > #{step};
+	]]>
+
+	insert into notice ( id, root, title, content, writer
+						, filename, filepath, step, indent )
+	values ( seq_notice.nextval, #{root}, #{title}, #{content}, #{writer}
+			, #{filename, jdbcType=VARCHAR}, #{filepath, jdbcType=VARCHAR}
+			, #{step} + 1, #{indent} + 1 );
+end	
+}	
+</insert>
+
+<insert id="insert">
+	insert into notice ( id, root, title, content, writer, filename, filepath )
+	values ( seq_notice.nextval, seq_notice.currval, #{title}, #{content}, #{writer}
+			  , #{filename, jdbcType=VARCHAR}
+			  , #{filepath, jdbcType=VARCHAR} )
+</insert>
+
+
+<sql id='search_where'>
+	<if test=" search=='title' or search=='content' ">
+	where ${search} like '%'|| #{keyword} || '%' 
+	</if>
+	<if test=' search=="all" '>
+	where title like '%'|| #{keyword} || '%' 
+	or content like '%'|| #{keyword} || '%' 
+	or writer in ( select id from member 
+	               where name like '%'|| #{keyword} || '%' ) 
+	</if>
+	<if test=' search=="writer" ' >
+	where writer in ( select id from member 
+	                  where name like '%'|| #{keyword} || '%' )
+	</if>
+</sql>
+
+<select id="totalList" resultType="integer">
+	select count(*) from notice <include refid="search_where"/>
+</select>
+
+<select id="list" resultType="notice.NoticeVO">
+<!-- 페이지별 목록 조회시 -->
+	select * from
+	(select rownum no,  n.*, (select name from member m
+			 				 where m.id=n.writer) name 
+	from (select * from notice <include refid="search_where"/>
+	      order by root, step desc) n
+	order by no desc)
+	where no between #{beginList} and #{endList}
+
+<!-- 전체 목록 조회시 -->
+<!--  
+	select rownum no,  n.*, (select name from member m
+			 				 where m.id=n.writer) name 
+	from (select * from notice 
+	      order by id) n
+	order by no desc
+-->
+</select>
+
+</mapper>
