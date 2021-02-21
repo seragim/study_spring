@@ -28,14 +28,14 @@ public class BoardController {
 	@Autowired private BoardPage page;
 	@Autowired private CommonService common;
 	
-	//¹æ¸í·Ï ´ñ±Û»èÁ¦Ã³¸® ¿äÃ»
+	//ë°©ëª…ë¡ ëŒ“ê¸€ì‚­ì œì²˜ë¦¬ ìš”ì²­
 	@ResponseBody @RequestMapping("/board/comment/delete/{id}")
 	public void comment_delete(@PathVariable int id) {
 		service.board_comment_delete(id);
 	}
 	
 	
-	//¹æ¸í·Ï ´ñ±Û¸ñ·Ï Á¶È¸ ¿äÃ»
+	//ë°©ëª…ë¡ ëŒ“ê¸€ëª©ë¡ ì¡°íšŒ ìš”ì²­
 	@RequestMapping("/board/comment/{pid}")
 	public String comment_list(@PathVariable int pid, Model model) {
 		model.addAttribute("list", service.board_comment_list(pid) );
@@ -44,31 +44,31 @@ public class BoardController {
 		return "board/comment/comment_list";
 	}
 	
-	//¹æ¸í·Ï ´ñ±Ûº¯°æÀúÀåÃ³¸® ¿äÃ»
+	//ë°©ëª…ë¡ ëŒ“ê¸€ë³€ê²½ì €ì¥ì²˜ë¦¬ ìš”ì²­
 	@ResponseBody @RequestMapping(value="/board/comment/update"
 							, produces="application/text; charset=utf-8")
 	public String comment_update( @RequestBody BoardCommentVO vo) {
-		//È­¸é¿¡¼­ º¯°æÀÔ·ÂÇÑ Á¤º¸¸¦ DB¿¡ ÀúÀåÇÑ ÈÄ È£ÃâÇÑ °÷À¸·Î °£´Ù
-		return service.board_comment_update(vo) > 0 ? "¼º°ø^^" : "½ÇÆĞ¤Ğ¤Ğ";
+		//í™”ë©´ì—ì„œ ë³€ê²½ì…ë ¥í•œ ì •ë³´ë¥¼ DBì— ì €ì¥í•œ í›„ í˜¸ì¶œí•œ ê³³ìœ¼ë¡œ ê°„ë‹¤
+		return service.board_comment_update(vo) > 0 ? "ì„±ê³µ^^" : "ì‹¤íŒ¨ã… ã… ";
 	}
 	
 	
 	
 	
-	//¹æ¸í·Ï ´ñ±Û ÀúÀåÃ³¸® ¿äÃ»
+	//ë°©ëª…ë¡ ëŒ“ê¸€ ì €ì¥ì²˜ë¦¬ ìš”ì²­
 	@ResponseBody @RequestMapping("/board/comment/insert")
 	public boolean comment_insert(BoardCommentVO vo, HttpSession session) {
-		//È­¸é¿¡¼­ ÀÔ·ÂÇÑ ´ñ±ÛÁ¤º¸¸¦ DB¿¡ ÀúÀåÇÑ ÈÄ 
+		//í™”ë©´ì—ì„œ ì…ë ¥í•œ ëŒ“ê¸€ì •ë³´ë¥¼ DBì— ì €ì¥í•œ í›„ 
 		MemberVO user = (MemberVO)session.getAttribute("loginInfo");
 		vo.setWriter( user.getId() );
 		return service.board_comment_insert(vo) > 0 ? true : false;
 	}
 	
 	
-	//¹æ¸í·Ï »èÁ¦ Ã³¸® ¿äÃ»
+	//ë°©ëª…ë¡ ì‚­ì œ ì²˜ë¦¬ ìš”ì²­
 	@RequestMapping("/delete.bo")
 	public String delete(int id, HttpSession session, Model model) {
-		//Ã·ºÎÆÄÀÏÀÌ ÀÖ´Â ±ÛÀÇ °æ¿ì ¹°¸®Àû ¼­¹öÀÇ ¿µ¿ª¿¡¼­ ÆÄÀÏÀ» »èÁ¦
+		//ì²¨ë¶€íŒŒì¼ì´ ìˆëŠ” ê¸€ì˜ ê²½ìš° ë¬¼ë¦¬ì  ì„œë²„ì˜ ì˜ì—­ì—ì„œ íŒŒì¼ì„ ì‚­ì œ
 		BoardVO vo = service.board_view(id);
 		if( vo.getFilename()!=null  ) {
 			File file = new File( session.getServletContext()
@@ -76,7 +76,7 @@ public class BoardController {
 											+ "/" + vo.getFilepath() );
 			if( file.exists() ) file.delete();
 		}
-		//¼±ÅÃÇÑ ±ÛÀ» DB¿¡¼­ »èÁ¦ÇÑ ÈÄ ¸ñ·ÏÈ­¸éÀ¸·Î ¿¬°á
+		//ì„ íƒí•œ ê¸€ì„ DBì—ì„œ ì‚­ì œí•œ í›„ ëª©ë¡í™”ë©´ìœ¼ë¡œ ì—°ê²°
 		service.board_delete(id);
 		
 		model.addAttribute("page", page);
@@ -85,7 +85,7 @@ public class BoardController {
 //		return "redirect:list.bo";
 	}
 	
-	//Ã·ºÎÆÄÀÏ ´Ù¿î·Îµå ¿äÃ»
+	//ì²¨ë¶€íŒŒì¼ ë‹¤ìš´ë¡œë“œ ìš”ì²­
 	@ResponseBody @RequestMapping("/download.bo")
 	public void download(int id, HttpSession session
 							, HttpServletResponse response) {
@@ -93,7 +93,7 @@ public class BoardController {
 		common.fileDownload( vo.getFilename(), vo.getFilepath(), session, response );
 	}
 	
-	//¹æ¸í·Ï ¼öÁ¤ ÀúÀåÃ³¸® ¿äÃ»
+	//ë°©ëª…ë¡ ìˆ˜ì • ì €ì¥ì²˜ë¦¬ ìš”ì²­
 	@RequestMapping("/update.bo")
 	public String update(BoardVO vo, String attach
 							, HttpSession session
@@ -102,18 +102,18 @@ public class BoardController {
 		BoardVO board = service.board_view( vo.getId() );
 		String uuid = session.getServletContext().getRealPath("resources")
 						+ "/" + board.getFilepath();
-		//Ã·ºÎÆÄÀÏ °ü·ÃÃ³¸®
-		if( ! file.isEmpty() ) { //Ã·ºÎÆÄÀÏ ÀÖ´Â °æ¿ì
+		//ì²¨ë¶€íŒŒì¼ ê´€ë ¨ì²˜ë¦¬
+		if( ! file.isEmpty() ) { //ì²¨ë¶€íŒŒì¼ ìˆëŠ” ê²½ìš°
 			vo.setFilename( file.getOriginalFilename() );
 			vo.setFilepath( common.fileUpload(session, file, "board") );
 			
-			//¿ø·¡ Ã·ºÎµÈ ÆÄÀÏÀÌ ÀÖ¾ú´Ù¸é ¼­¹ö¿¡¼­ »èÁ¦
+			//ì›ë˜ ì²¨ë¶€ëœ íŒŒì¼ì´ ìˆì—ˆë‹¤ë©´ ì„œë²„ì—ì„œ ì‚­ì œ
 			if( board.getFilename() != null ) {
 				File f = new File( uuid );
 				if( f.exists() ) f.delete();
 			}
 		}else {
-			//¿ø·¡ Ã·ºÎµÈ ÆÄÀÏÀ» »èÁ¦/ ¿ø·¡ºÎÅÍ Ã·ºÎÆÄÀÏÀÌ ¾ø´Â °æ¿ì
+			//ì›ë˜ ì²¨ë¶€ëœ íŒŒì¼ì„ ì‚­ì œ/ ì›ë˜ë¶€í„° ì²¨ë¶€íŒŒì¼ì´ ì—†ëŠ” ê²½ìš°
 			if( attach.isEmpty() ) {
 				if( board.getFilename() != null ) {
 					File f = new File( uuid );
@@ -121,13 +121,13 @@ public class BoardController {
 				}
 				
 			}else {
-				//¿ø·¡ Ã·ºÎµÈ ÆÄÀÏÀ» ±×´ë·Î »ç¿ëÇÏ´Â °æ¿ì
+				//ì›ë˜ ì²¨ë¶€ëœ íŒŒì¼ì„ ê·¸ëŒ€ë¡œ ì‚¬ìš©í•˜ëŠ” ê²½ìš°
 				vo.setFilename( board.getFilename() );
 				vo.setFilepath( board.getFilepath() );
 			}
 		}
 		
-		//È­¸é¿¡¼­ ÀÔ·ÂÇÑ Á¤º¸¸¦ DB¿¡ º¯°æÀúÀåÇÑ ÈÄ º¸±âÈ­¸éÀ¸·Î ¿¬°á
+		//í™”ë©´ì—ì„œ ì…ë ¥í•œ ì •ë³´ë¥¼ DBì— ë³€ê²½ì €ì¥í•œ í›„ ë³´ê¸°í™”ë©´ìœ¼ë¡œ ì—°ê²°
 		service.board_update(vo);
 		
 		model.addAttribute("url", "view.bo");
@@ -137,20 +137,20 @@ public class BoardController {
 	
 	
 	
-	//¹æ¸í·Ï ¼öÁ¤È­¸é ¿äÃ»
+	//ë°©ëª…ë¡ ìˆ˜ì •í™”ë©´ ìš”ì²­
 	@RequestMapping("/modify.bo")
 	public String modify(int id, Model model) {
-		//ÇØ´ç ±ÛÀÇ Á¤º¸¸¦ DB¿¡¼­ Á¶È¸ÇØ¿Í ¼öÁ¤È­¸é¿¡ Ãâ·Â
+		//í•´ë‹¹ ê¸€ì˜ ì •ë³´ë¥¼ DBì—ì„œ ì¡°íšŒí•´ì™€ ìˆ˜ì •í™”ë©´ì— ì¶œë ¥
 		model.addAttribute("vo", service.board_view(id));
 		return "board/modify";
 	}
 	
 	
-	//¹æ¸í·Ï ±Û³»¿ë»ó¼¼È­¸é ¿äÃ»
+	//ë°©ëª…ë¡ ê¸€ë‚´ìš©ìƒì„¸í™”ë©´ ìš”ì²­
 	@RequestMapping("/view.bo")
 	public String view(int id, Model model) {
 		service.board_read(id);
-		//¼±ÅÃÇÑ ±ÛÀÇ Á¤º¸¸¦ DB¿¡¼­ Á¶È¸ÇØ¿Í º¸±âÈ­¸é¿¡ Ãâ·Â
+		//ì„ íƒí•œ ê¸€ì˜ ì •ë³´ë¥¼ DBì—ì„œ ì¡°íšŒí•´ì™€ ë³´ê¸°í™”ë©´ì— ì¶œë ¥
 		model.addAttribute("vo", service.board_view(id));
 		model.addAttribute("crlf", "\r\n");
 		model.addAttribute("lf", "\n");
@@ -159,10 +159,10 @@ public class BoardController {
 	}
 	
 	
-	//¹æ¸í·Ï ±ÛÀúÀåÃ³¸® ¿äÃ»
+	//ë°©ëª…ë¡ ê¸€ì €ì¥ì²˜ë¦¬ ìš”ì²­
 	@RequestMapping("/insert.bo")
 	public String insert(BoardVO vo, MultipartFile file, HttpSession session) {
-		//È­¸é¿¡¼­ ÀÔ·ÂÇÑ Á¤º¸¸¦ DB¿¡ ÀúÀåÇÑ ÈÄ ¸ñ·ÏÈ­¸éÀ¸·Î ¿¬°á
+		//í™”ë©´ì—ì„œ ì…ë ¥í•œ ì •ë³´ë¥¼ DBì— ì €ì¥í•œ í›„ ëª©ë¡í™”ë©´ìœ¼ë¡œ ì—°ê²°
 		if( ! file.isEmpty() ) {
 			vo.setFilename( file.getOriginalFilename() );
 			vo.setFilepath( common.fileUpload(session, file, "board") );
@@ -174,13 +174,13 @@ public class BoardController {
 	}
 	
 	
-	//¹æ¸í·Ï ±Û¾²±â È­¸é ¿äÃ»
+	//ë°©ëª…ë¡ ê¸€ì“°ê¸° í™”ë©´ ìš”ì²­
 	@RequestMapping("/new.bo")
 	public String board() {
 		return "board/new";
 	}
 	
-	//¹æ¸í·Ï ¸ñ·Ï Á¶È¸ ¿äÃ»
+	//ë°©ëª…ë¡ ëª©ë¡ ì¡°íšŒ ìš”ì²­
 	@RequestMapping("/list.bo")
 	public String list(HttpSession session, Model model
 						, String search, String keyword
@@ -188,7 +188,7 @@ public class BoardController {
 						, @RequestParam(defaultValue="list") String viewType
 						, @RequestParam(defaultValue="1") int curPage ) {
 		session.setAttribute("category", "bo");
-		//DB¿¡¼­ ¹æ¸í·Ï ¸ñ·ÏÀ» Á¶È¸ÇØ¿Í ¸ñ·ÏÈ­¸é¿¡ Ãâ·Â
+		//DBì—ì„œ ë°©ëª…ë¡ ëª©ë¡ì„ ì¡°íšŒí•´ì™€ ëª©ë¡í™”ë©´ì— ì¶œë ¥
 		page.setCurPage(curPage);
 		page.setSearch(search);
 		page.setKeyword(keyword);

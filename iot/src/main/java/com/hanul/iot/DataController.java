@@ -16,7 +16,7 @@ import common.CommonService;
 @Controller
 public class DataController {
 
-	//°ø°øµ¥ÀÌÅÍ È­¸é ¿äÃ»
+	//ê³µê³µë°ì´í„° í™”ë©´ ìš”ì²­
 	@RequestMapping("/list.da")
 	public String data(HttpSession session) {
 		session.setAttribute("category", "da");
@@ -30,7 +30,7 @@ public class DataController {
 	private String animalUrl 
 	= "http://openapi.animal.go.kr/openapi/service/rest/abandonmentPublicSrvc/";
 	
-	//À¯±âµ¿¹°Á¤º¸Á¶È¸ ¿äÃ»
+	//ìœ ê¸°ë™ë¬¼ì •ë³´ì¡°íšŒ ìš”ì²­
 	@ResponseBody @RequestMapping(value="/data/animal/list"
 							, produces="application/json; charset=utf-8")
 	public String animal_list(@RequestBody HashMap<String, Object> map) {
@@ -43,7 +43,7 @@ public class DataController {
 	}
 	
 	
-	//°ø°øµ¥ÀÌÅÍ ¾à±¹Á¤º¸Á¶È¸ ¿äÃ»
+	//ê³µê³µë°ì´í„° ì•½êµ­ì •ë³´ì¡°íšŒ ìš”ì²­
 	@ResponseBody @RequestMapping(value="/data/pharmacy"
 					, produces="application/json; charset=utf-8")
 	public String pharmacy_list(int pageNo

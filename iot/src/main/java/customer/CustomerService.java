@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface CustomerService {
 	//CRUD(Create, Read, Update, Delete)
-	void customer_insert(CustomerVO vo); //½Å±Ô°í°´ÀúÀå
-	List<CustomerVO> customer_list(); //°í°´¸ñ·ÏÁ¶È¸
-	CustomerVO customer_detail(int id); //°í°´»ó¼¼Á¤º¸Á¶È¸
-	void customer_update(CustomerVO vo); //°í°´Á¤º¸¼öÁ¤ÀúÀå
-	void customer_delete(int id); //°í°´Á¤º¸»èÁ¦
+	void customer_insert(CustomerVO vo); //ì‹ ê·œê³ ê°ì €ì¥
+	List<CustomerVO> customer_list(); //ê³ ê°ëª©ë¡ì¡°íšŒ
+	CustomerVO customer_detail(int id); //ê³ ê°ìƒì„¸ì •ë³´ì¡°íšŒ
+	void customer_update(CustomerVO vo); //ê³ ê°ì •ë³´ìˆ˜ì •ì €ì¥
+	void customer_delete(int id); //ê³ ê°ì •ë³´ì‚­ì œ
 }

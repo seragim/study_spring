@@ -4,13 +4,13 @@ import java.util.List;
 
 public interface NoticeService {
 	//CRUD
-	void notice_insert(NoticeVO vo); //½Å±Ô°øÁö±ÛÀúÀå
-	void notice_reply_insert(NoticeVO vo); //½Å±Ô´ä±ÛÀúÀå
-	List<NoticeVO> notice_list(); //°øÁö±Û¸ñ·ÏÁ¶È¸
-	NoticePage notice_list(NoticePage page); //ÆäÀÌÁö´ÜÀ§·Î °øÁö±Û¸ñ·ÏÁ¶È¸
-	NoticeVO notice_view(int id);//°øÁö±Û»ó¼¼Á¶È¸(°øÁö±Ûº¸±â)
-	void notice_read(int id); //Á¶È¸¼ö Áõ°¡Ã³¸®
-	void notice_update(NoticeVO vo); //°øÁö±Ûº¯°æÀúÀå
-	void notice_delete(int id);//°øÁö±Û»èÁ¦
+	void notice_insert(NoticeVO vo); //ì‹ ê·œê³µì§€ê¸€ì €ì¥
+	void notice_reply_insert(NoticeVO vo); //ì‹ ê·œë‹µê¸€ì €ì¥
+	List<NoticeVO> notice_list(); //ê³µì§€ê¸€ëª©ë¡ì¡°íšŒ
+	NoticePage notice_list(NoticePage page); //í˜ì´ì§€ë‹¨ìœ„ë¡œ ê³µì§€ê¸€ëª©ë¡ì¡°íšŒ
+	NoticeVO notice_view(int id);//ê³µì§€ê¸€ìƒì„¸ì¡°íšŒ(ê³µì§€ê¸€ë³´ê¸°)
+	void notice_read(int id); //ì¡°íšŒìˆ˜ ì¦ê°€ì²˜ë¦¬
+	void notice_update(NoticeVO vo); //ê³µì§€ê¸€ë³€ê²½ì €ì¥
+	void notice_delete(int id);//ê³µì§€ê¸€ì‚­ì œ
 	
 }

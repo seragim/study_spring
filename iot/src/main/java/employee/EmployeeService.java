@@ -3,8 +3,8 @@ package employee;
 import java.util.List;
 
 public interface EmployeeService {
-	List<EmployeeVO> employee_list(); //»ç¿ø¸ñ·ÏÁ¶È¸
-	List<EmployeeVO> employee_list(String depts); //»ç¿ø¸ñ·ÏÁ¶È¸-ºÎ¼­¼±ÅÃÇÑ °æ¿ì
-	EmployeeVO employee_detail(int id);//»ç¿ø»ó¼¼Á¶È¸
-	List<DepartmentVO> employee_department();//»ç¿øÀÌ ¼Ò¼ÓµÈ ºÎ¼­Á¶È¸
+	List<EmployeeVO> employee_list(); //ì‚¬ì›ëª©ë¡ì¡°íšŒ
+	List<EmployeeVO> employee_list(String depts); //ì‚¬ì›ëª©ë¡ì¡°íšŒ-ë¶€ì„œì„ íƒí•œ ê²½ìš°
+	EmployeeVO employee_detail(int id);//ì‚¬ì›ìƒì„¸ì¡°íšŒ
+	List<DepartmentVO> employee_department();//ì‚¬ì›ì´ ì†Œì†ëœ ë¶€ì„œì¡°íšŒ
 }

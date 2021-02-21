@@ -4,17 +4,17 @@ import java.util.List;
 
 public interface BoardService {
 	//CRUD
-	int board_insert(BoardVO vo); //¹æ¸í·Ï ½Å±ÔÀúÀå
-	BoardPage board_list(BoardPage page);  //ÆäÀÌÁö´ÜÀ§ ¸ñ·ÏÁ¶È¸
-	BoardVO board_view(int id); //¼±ÅÃÇÑ ¹æ¸í·Ïº¸±âÁ¶È¸
-	void board_read(int id); //¼±ÅÃÇÑ ±ÛÀÇ Á¶È¸¼ö Áõ°¡Ã³¸®
-	int board_update(BoardVO vo); //¼±ÅÃÇÑ ±ÛÀÇ º¯°æÀúÀå
-	int board_delete(int id); //¼±ÅÃÇÑ °øÁö±Û »èÁ¦
+	int board_insert(BoardVO vo); //ë°©ëª…ë¡ ì‹ ê·œì €ì¥
+	BoardPage board_list(BoardPage page);  //í˜ì´ì§€ë‹¨ìœ„ ëª©ë¡ì¡°íšŒ
+	BoardVO board_view(int id); //ì„ íƒí•œ ë°©ëª…ë¡ë³´ê¸°ì¡°íšŒ
+	void board_read(int id); //ì„ íƒí•œ ê¸€ì˜ ì¡°íšŒìˆ˜ ì¦ê°€ì²˜ë¦¬
+	int board_update(BoardVO vo); //ì„ íƒí•œ ê¸€ì˜ ë³€ê²½ì €ì¥
+	int board_delete(int id); //ì„ íƒí•œ ê³µì§€ê¸€ ì‚­ì œ
 	
-	int board_comment_insert(BoardCommentVO vo); //´ñ±ÛÀúÀåÃ³¸®
-	List<BoardCommentVO> board_comment_list(int pid); //´ñ±Û¸ñ·ÏÁ¶È¸
-	int board_comment_update(BoardCommentVO vo); //´ñ±Ûº¯°æÀúÀåÃ³¸®
-	int board_comment_delete(int id); //´ñ±Û»èÁ¦Ã³¸®
+	int board_comment_insert(BoardCommentVO vo); //ëŒ“ê¸€ì €ì¥ì²˜ë¦¬
+	List<BoardCommentVO> board_comment_list(int pid); //ëŒ“ê¸€ëª©ë¡ì¡°íšŒ
+	int board_comment_update(BoardCommentVO vo); //ëŒ“ê¸€ë³€ê²½ì €ì¥ì²˜ë¦¬
+	int board_comment_delete(int id); //ëŒ“ê¸€ì‚­ì œì²˜ë¦¬
 }
 
 

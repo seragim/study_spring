@@ -13,25 +13,25 @@ import employee.EmployeeServiceImpl;
 public class EmployeeController {
 	@Autowired private EmployeeServiceImpl service;
 	
-	//»ç¿øÁ¤º¸ Á¶È¸
+	//ì‚¬ì›ì •ë³´ ì¡°íšŒ
 	@RequestMapping("/detail.hr")
 	public String detail(Model model, int id) {
-		//¼±ÅÃÇÑ »ç¿øÀÇ Á¤º¸¸¦ Á¶È¸ÇØ¿Í »ç¿ø»ó¼¼Á¤º¸È­¸é¿¡ Ãâ·Â
+		//ì„ íƒí•œ ì‚¬ì›ì˜ ì •ë³´ë¥¼ ì¡°íšŒí•´ì™€ ì‚¬ì›ìƒì„¸ì •ë³´í™”ë©´ì— ì¶œë ¥
 		model.addAttribute("vo", service.employee_detail(id));
 		return "employee/detail";
 	}
 	
-	//»ç¿ø¸ñ·Ï Á¶È¸
+	//ì‚¬ì›ëª©ë¡ ì¡°íšŒ
 	@RequestMapping("/list.hr")
 	public String list(Model model, String depts, HttpSession session) {
 		session.setAttribute("category", "hr");
-		//»ç¿øÀÌ ¼Ò¼ÓµÈ ºÎ¼­Á¤º¸ Á¶È¸ÇÏ¿© »ç¿ø»ó¼¼Á¤º¸È­¸é¿¡ Ãâ·Â
+		//ì‚¬ì›ì´ ì†Œì†ëœ ë¶€ì„œì •ë³´ ì¡°íšŒí•˜ì—¬ ì‚¬ì›ìƒì„¸ì •ë³´í™”ë©´ì— ì¶œë ¥
 		model.addAttribute("depts", service.employee_department());
-		//DB¿¡¼­ »ç¿ø¸ñ·ÏÀ» Á¶È¸ÇØ¿Í ¸ñ·ÏÈ­¸é¿¡ Ãâ·Â
-		//ºÎ¼­¸¦ ¼±ÅÃÇÑ °æ¿ì ÇØ´ç ºÎ¼­¿¡ ¼ÓÇÑ »ç¿ø¸ñ·ÏÀ» Á¶È¸ÇÑ´Ù.
-		//null: depts ÆÄ¶ó¹ÌÅÍ°¡ ¾ø´Â °æ¿ì
-		//all: depts ÆÄ¶ó¹ÌÅÍ°¡ ¹®ÀÚ¿­ÀÎ ÀüÃ¼ÀÎ °æ¿ì
-		//±× ¿Ü´Â ¼ıÀÚÀÎ ºÎ¼­ÄÚµå¿¡ ÇØ´çÇÏ´Â °æ¿ì
+		//DBì—ì„œ ì‚¬ì›ëª©ë¡ì„ ì¡°íšŒí•´ì™€ ëª©ë¡í™”ë©´ì— ì¶œë ¥
+		//ë¶€ì„œë¥¼ ì„ íƒí•œ ê²½ìš° í•´ë‹¹ ë¶€ì„œì— ì†í•œ ì‚¬ì›ëª©ë¡ì„ ì¡°íšŒí•œë‹¤.
+		//null: depts íŒŒë¼ë¯¸í„°ê°€ ì—†ëŠ” ê²½ìš°
+		//all: depts íŒŒë¼ë¯¸í„°ê°€ ë¬¸ìì—´ì¸ ì „ì²´ì¸ ê²½ìš°
+		//ê·¸ ì™¸ëŠ” ìˆ«ìì¸ ë¶€ì„œì½”ë“œì— í•´ë‹¹í•˜ëŠ” ê²½ìš°
 		if( depts == null || depts.equals("all") )
 			model.addAttribute("list", service.employee_list() );
 		else

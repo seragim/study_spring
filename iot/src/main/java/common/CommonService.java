@@ -27,14 +27,14 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class CommonService {
 
-	//ÆÄÀÏ´Ù¿î·Îµå
+	//íŒŒì¼ë‹¤ìš´ë¡œë“œ
 	public File fileDownload(String filename, String filepath
 							, HttpSession session
 							, HttpServletResponse response) {
-		//´Ù¿î·ÎµåÇÒ ÆÄÀÏ°´Ã¼¸¦ »ı¼º
+		//ë‹¤ìš´ë¡œë“œí•  íŒŒì¼ê°ì²´ë¥¼ ìƒì„±
 		File file = new File( session.getServletContext().getRealPath("resources")
 					+ "/" + filepath );
-		//content type ÁöÁ¤À» À§ÇÑ ÆÄÀÏÀÇ ¸¶ÀÓÅ¸ÀÔ
+		//content type ì§€ì •ì„ ìœ„í•œ íŒŒì¼ì˜ ë§ˆì„íƒ€ì…
 		String mime = session.getServletContext().getMimeType(filename);
 		
 		response.setContentType(mime);
@@ -55,10 +55,10 @@ public class CommonService {
 	}
 	
 	
-	//ÆÄÀÏ¾÷·Îµå
+	//íŒŒì¼ì—…ë¡œë“œ
 	public String fileUpload(HttpSession session
 							, MultipartFile file, String category) {
-		//¼­¹öÀÇ ¹°¸®ÀûÀ§Ä¡ 
+		//ì„œë²„ì˜ ë¬¼ë¦¬ì ìœ„ì¹˜ 
 		String resources 
 			= session.getServletContext().getRealPath("resources");
 		//D://Study_Spring/...... /iot/resources
@@ -85,13 +85,13 @@ public class CommonService {
 	
 	public void sendEmail(HttpSession session, String email, String name) {
 		
-		//±âº»ÀÌ¸ŞÀÏÀü¼Û
+		//ê¸°ë³¸ì´ë©”ì¼ì „ì†¡
 		//sendSimple(email, name);
 		
-		//ÆÄÀÏÃ·ºÎÀÌ¸ŞÀÏÀü¼Û
+		//íŒŒì¼ì²¨ë¶€ì´ë©”ì¼ì „ì†¡
 		//sendAttach(session, email, name);
 		
-		//HTMLÇüÅÂÀÌ¸ŞÀÏÀü¼Û
+		//HTMLí˜•íƒœì´ë©”ì¼ì „ì†¡
 		sendHtml(session, email, name);
 		
 	}
@@ -101,24 +101,24 @@ public class CommonService {
 		mail.setDebug(true);
 		mail.setCharset("utf-8");
 		
-		mail.setAuthentication("°ü¸®ÀÚÀÌ¸ŞÀÏ", "°ü¸®ÀÚ¸ŞÀÏºñ¹ø");
+		mail.setAuthentication("ê´€ë¦¬ìì´ë©”ì¼", "ê´€ë¦¬ìë©”ì¼ë¹„ë²ˆ");
 		mail.setSSLOnConnect(true);
 		
 		try {
-		mail.setFrom("ÇÑ¿ï°ü¸®ÀÚ¸ŞÀÏ", "ÇÑ¿ï°ü¸®ÀÚ");
+		mail.setFrom("í•œìš¸ê´€ë¦¬ìë©”ì¼", "í•œìš¸ê´€ë¦¬ì");
 		mail.addTo(email, name);
 		
-		mail.setSubject("È¸¿ø°¡ÀÔÃàÇÏ -HTML");
+		mail.setSubject("íšŒì›ê°€ì…ì¶•í•˜ -HTML");
 		StringBuffer msg = new StringBuffer();
 		msg.append("<html>");
 		msg.append("<body>");
 		msg.append("<a href='http://hanuledu.co.kr/'><img src='http://hanuledu.co.kr/data/menu/LOGO_cYFn10oGM70UkjkExmRP1610075399.jpg'/></a>");
 		msg.append("<hr>");
-		msg.append("<h2>ÇÑ¿ï IoT°úÁ¤ °¡ÀÔ ÃàÇÏ</h2>");
-		msg.append("<p>È¸¿ø°¡ÀÔÀ» ÃàÇÏÇÕ´Ï´Ù</p>");
-		msg.append("<p>Ã·ºÎµÈ ÆÄÀÏÀ» ²À È®ÀÎÇØ ÁÖ½Ã°í</p>");
-		msg.append("<p>ÇÁ·ÎÁ§Æ®±îÁö ¸¶¹«¸®ÇØ¼­ </p>");
-		msg.append("<p>Ãë¾÷¿¡ ¼º°øÇÏ½Ã±â ¹Ù¶ø´Ï´Ù</p>");
+		msg.append("<h2>í•œìš¸ IoTê³¼ì • ê°€ì… ì¶•í•˜</h2>");
+		msg.append("<p>íšŒì›ê°€ì…ì„ ì¶•í•˜í•©ë‹ˆë‹¤</p>");
+		msg.append("<p>ì²¨ë¶€ëœ íŒŒì¼ì„ ê¼­ í™•ì¸í•´ ì£¼ì‹œê³ </p>");
+		msg.append("<p>í”„ë¡œì íŠ¸ê¹Œì§€ ë§ˆë¬´ë¦¬í•´ì„œ </p>");
+		msg.append("<p>ì·¨ì—…ì— ì„±ê³µí•˜ì‹œê¸° ë°”ëë‹ˆë‹¤</p>");
 		msg.append("</body>");
 		msg.append("</html>");
 		mail.setHtmlMsg(msg.toString());
@@ -146,16 +146,16 @@ public class CommonService {
 		mail.setCharset("utf-8");
 		mail.setDebug(true);
 		
-		mail.setAuthentication("°ü¸®ÀÚÀÌ¸ŞÀÏÁÖ¼Ò", "ÇÑ¿ï°ü¸®ÀÚ");
+		mail.setAuthentication("ê´€ë¦¬ìì´ë©”ì¼ì£¼ì†Œ", "í•œìš¸ê´€ë¦¬ì");
 		mail.setSSLOnConnect(true);
 		
 		try {
-			mail.setFrom("°ü¸®ÀÚÀÌ¸ŞÀÏÁÖ¼Ò", "ÇÑ¿ï°ü¸®ÀÚ");
+			mail.setFrom("ê´€ë¦¬ìì´ë©”ì¼ì£¼ì†Œ", "í•œìš¸ê´€ë¦¬ì");
 			mail.addTo(email, name);
 			
-			mail.setSubject("È¸¿ø°¡ÀÔÃàÇÏ ¸Ş½ÃÁö-Ã·ºÎÆÄÀÏÈ®ÀÎ¿ä¸Á");
-			mail.setMsg("È¸¿ø°¡ÀÔÀ» ÃàÇÏÇÕ´Ï´Ù. Ã·ºÎµÈ ÆÄÀÏÀ» È®ÀÎÇÏ¼¼¿ä!");
-			//ÆÄÀÏÃ·ºÎÇÏ±â
+			mail.setSubject("íšŒì›ê°€ì…ì¶•í•˜ ë©”ì‹œì§€-ì²¨ë¶€íŒŒì¼í™•ì¸ìš”ë§");
+			mail.setMsg("íšŒì›ê°€ì…ì„ ì¶•í•˜í•©ë‹ˆë‹¤. ì²¨ë¶€ëœ íŒŒì¼ì„ í™•ì¸í•˜ì„¸ìš”!");
+			//íŒŒì¼ì²¨ë¶€í•˜ê¸°
 			EmailAttachment file = new EmailAttachment();
 			file.setPath("D:\\Study_Web\\workspace\\02.MVC\\src\\HelloServlet.java");
 			mail.attach(file);
@@ -180,26 +180,26 @@ public class CommonService {
 	private void sendSimple(String email, String name) {
 		SimpleEmail mail = new SimpleEmail();
 		
-		mail.setHostName("smtp.naver.com"); //¸ŞÀÏ¼­¹öÁöÁ¤
+		mail.setHostName("smtp.naver.com"); //ë©”ì¼ì„œë²„ì§€ì •
 		mail.setCharset("utf-8");
 		mail.setDebug(true);
 		
-		//·Î±×ÀÎÇÏ±â À§ÇÑ ¾ÆÀÌµğ/ºñ¹ø ÁöÁ¤
-		mail.setAuthentication("ojink2", "ºñ¹Ğ¹øÈ£");
+		//ë¡œê·¸ì¸í•˜ê¸° ìœ„í•œ ì•„ì´ë””/ë¹„ë²ˆ ì§€ì •
+		mail.setAuthentication("ojink2", "ë¹„ë°€ë²ˆí˜¸");
 		mail.setSSLOnConnect(true);
 		
 		try {
-		//¸ŞÀÏ¼Û½ÅÀÎ ÁöÁ¤
-		mail.setFrom("ojink2@naver.com", "ÇÑ¿ï°ü¸®ÀÚ");
-//		mail.setFrom("admin@hanul.co.kr", "ÇÑ¿ï°ü¸®ÀÚ");
-		//¸ŞÀÏ¼ö½ÅÀÎ ÁöÁ¤
-		mail.addTo(email, name); //¿©·¯¸í¿¡°Ô º¸³¾¶§´Â addTo ¸¸ Ãß°¡
+		//ë©”ì¼ì†¡ì‹ ì¸ ì§€ì •
+		mail.setFrom("ojink2@naver.com", "í•œìš¸ê´€ë¦¬ì");
+//		mail.setFrom("admin@hanul.co.kr", "í•œìš¸ê´€ë¦¬ì");
+		//ë©”ì¼ìˆ˜ì‹ ì¸ ì§€ì •
+		mail.addTo(email, name); //ì—¬ëŸ¬ëª…ì—ê²Œ ë³´ë‚¼ë•ŒëŠ” addTo ë§Œ ì¶”ê°€
 		
-		//¸ŞÀÏÁ¦¸ñ, ³»¿ë
-		mail.setSubject("È¸¿ø°¡ÀÔÃàÇÏ ¸Ş½ÃÁö");
-		mail.setMsg(name + "´Ô! ÇÑ¿ïIoT °úÁ¤ ÀÔ±³¸¦ ÃàÇÏÇÕ´Ï´Ù");
+		//ë©”ì¼ì œëª©, ë‚´ìš©
+		mail.setSubject("íšŒì›ê°€ì…ì¶•í•˜ ë©”ì‹œì§€");
+		mail.setMsg(name + "ë‹˜! í•œìš¸IoT ê³¼ì • ì…êµë¥¼ ì¶•í•˜í•©ë‹ˆë‹¤");
 		
-		//¸ŞÀÏÀü¼Û¹öÆ° Å¬¸¯
+		//ë©”ì¼ì „ì†¡ë²„íŠ¼ í´ë¦­
 		mail.send();
 		
 		}catch(Exception e) {

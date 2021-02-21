@@ -1,8 +1,8 @@
-°ø°øµ¥ÀÌÅÍÃ³¸®
+ê³µê³µë°ì´í„°ì²˜ë¦¬
 
 
 
-¹æ¸í·Ï ´ñ±Û°ü¸®
+ë°©ëª…ë¡ ëŒ“ê¸€ê´€ë¦¬
 create table board_comment(
 id          number constraint board_comment_id_pk primary key,
 pid         number constraint board_comment_pid_fk 
@@ -23,7 +23,7 @@ begin
 end;
 /
 
-¹æ¸í·Ï°ü¸®
+ë°©ëª…ë¡ê´€ë¦¬
 create table board(
 id       number constraint board_id_pk primary key,
 title    varchar2(300) not null,
@@ -39,7 +39,7 @@ constraint board_writer_fk foreign key(writer)
 
 create sequence seq_board start with 1 increment by 1;
 
-½ÃÄö½º¸¦ ¸¸µé¾î¼­ board Å×ÀÌºíÀÇ pkÀÎ id ÄÃ·³¿¡ ³Ö±â
+ì‹œí€€ìŠ¤ë¥¼ ë§Œë“¤ì–´ì„œ board í…Œì´ë¸”ì˜ pkì¸ id ì»¬ëŸ¼ì— ë„£ê¸°
 create or replace trigger trg_board
 	before insert on board
 	for each row
@@ -59,7 +59,7 @@ end;
 
 
 
-°øÁö»çÇ×°ü¸®
+ê³µì§€ì‚¬í•­ê´€ë¦¬
 create table notice(
 id       number constraint notice_id_pk primary key,
 title    varchar2(300) not null,
@@ -75,11 +75,11 @@ indent   number default 0,
 constraint notice_writer_fk foreign key(writer) references member(id)
 );
 
-ÆÄÀÏÃ·ºÎ °ü·Ã ÄÃ·³ Ãß°¡
+íŒŒì¼ì²¨ë¶€ ê´€ë ¨ ì»¬ëŸ¼ ì¶”ê°€
 alter table notice
 add ( filename varchar2(300), filepath varchar2(300) );
 
-´ä±Û °ü·Ã ÄÃ·³ Ãß°¡
+ë‹µê¸€ ê´€ë ¨ ì»¬ëŸ¼ ì¶”ê°€
 alter table notice
 add ( root     number,
 		step     number default 0,
@@ -89,13 +89,13 @@ update notice set root = id;
 
 
 
-PKÀÎ id ¿¡ ÁöÁ¤ÇÒ ½ÃÄö½º
+PKì¸ id ì— ì§€ì •í•  ì‹œí€€ìŠ¤
 create sequence seq_notice
 start with 1 increment by 1;
 
 insert into notice( id, title, content, writer)
-values ( seq_notice.nextval, '°øÁö±ÛÀÔ´Ï´Ù' 
-		, '°ü¸®ÀÚ°¡ ÀÛ¼ºÇÑ Ã¹¹øÂ° °øÁö±ÛÀÔ´Ï´Ù', 'admin');
+values ( seq_notice.nextval, 'ê³µì§€ê¸€ì…ë‹ˆë‹¤' 
+		, 'ê´€ë¦¬ìê°€ ì‘ì„±í•œ ì²«ë²ˆì§¸ ê³µì§€ê¸€ì…ë‹ˆë‹¤', 'admin');
 
 
 
@@ -113,11 +113,11 @@ values ( seq_notice.nextval, '°øÁö±ÛÀÔ´Ï´Ù'
 
 
 
-°í°´°ü¸®
+ê³ ê°ê´€ë¦¬
 create table customer(
 id        number constraint customer_id_pk primary key,
 name      varchar2(50) not null,
-gender    varchar2(3) default '³²',
+gender    varchar2(3) default 'ë‚¨',
 email     varchar2(50),
 phone     varchar2(13)
 );
@@ -126,16 +126,16 @@ create sequence seq_customer
 start with 1 increment by 1;
 
 insert into customer(id, name, email, phone)
-values (seq_customer.nextval, 'È«±æµ¿'
+values (seq_customer.nextval, 'í™ê¸¸ë™'
 			, 'hong@naver.com', '010-1234-5678');
 
 insert into customer(name, email)
-values ('½ÉÃ»', 'sim@daum.net');
+values ('ì‹¬ì²­', 'sim@daum.net');
 
 
-customer Å×ÀÌºíÀÇ id ÄÃ·³¿¡ seq_customerÀÇ nextval °¡
-ÀÚµ¿À¸·Î Àû¿ëÀÌ µÇµµ·Ï ÇÏ·Á¸é
-trigger ¸¦ ¸¸µé¾î »ç¿ëÇÏÀÚ.
+customer í…Œì´ë¸”ì˜ id ì»¬ëŸ¼ì— seq_customerì˜ nextval ê°€
+ìë™ìœ¼ë¡œ ì ìš©ì´ ë˜ë„ë¡ í•˜ë ¤ë©´
+trigger ë¥¼ ë§Œë“¤ì–´ ì‚¬ìš©í•˜ì.
 
 create or replace trigger trg_customer
 	before insert on customer
@@ -145,50 +145,50 @@ begin
 end;
 /
 
-- DB ¿¬°áÃ³¸®
-1. db.properties ÆÄÀÏ»ı¼ºÈÄ
-  driver, url, username, password À» ¼±¾ğÇÑ´Ù
-2. Spring Bean Configuration File À» ¸¸µé¾î
-   DBCP·Î DB¿¬°á°´Ã¼¸¦ »ç¿ëÇÏ±âÀ§ÇÑ DBCP °´Ã¼, 
-   Mybatis¸¦ »ç¿ëÇÏ±â À§ÇÑ SqlSessionFactoryBean °´Ã¼, 
-   Äõ¸®¹® ½ÇÇàÀ» À§ÇÑ SqlSessionTemplate °´Ã¼¸¦ 
-   bean ÅÂ±×·Î µî·ÏÇÑ´Ù.
-3. Mapper ÆÄÀÏÀ» ¸¸µé¾îµÑ package ¸¦ ¼±¾ğÇÏ°í
-   ÇØ´ç ÆĞÅ°Áö¿¡ mapper ÆÄÀÏÀ» ¸¸µé¾îµĞ´Ù.
-   °¢ mapper ÆÄÀÏÀ» mapper ÅÂ±×¸¦ ¼±¾ğÇÒ ¼ö ÀÖµµ·Ï
-   Mapper DOCTYPE À» ¼±¾ğÇÑ´Ù. - mybatis.org Âü°í
+- DB ì—°ê²°ì²˜ë¦¬
+1. db.properties íŒŒì¼ìƒì„±í›„
+  driver, url, username, password ì„ ì„ ì–¸í•œë‹¤
+2. Spring Bean Configuration File ì„ ë§Œë“¤ì–´
+   DBCPë¡œ DBì—°ê²°ê°ì²´ë¥¼ ì‚¬ìš©í•˜ê¸°ìœ„í•œ DBCP ê°ì²´, 
+   Mybatisë¥¼ ì‚¬ìš©í•˜ê¸° ìœ„í•œ SqlSessionFactoryBean ê°ì²´, 
+   ì¿¼ë¦¬ë¬¸ ì‹¤í–‰ì„ ìœ„í•œ SqlSessionTemplate ê°ì²´ë¥¼ 
+   bean íƒœê·¸ë¡œ ë“±ë¡í•œë‹¤.
+3. Mapper íŒŒì¼ì„ ë§Œë“¤ì–´ë‘˜ package ë¥¼ ì„ ì–¸í•˜ê³ 
+   í•´ë‹¹ íŒ¨í‚¤ì§€ì— mapper íŒŒì¼ì„ ë§Œë“¤ì–´ë‘”ë‹¤.
+   ê° mapper íŒŒì¼ì„ mapper íƒœê·¸ë¥¼ ì„ ì–¸í•  ìˆ˜ ìˆë„ë¡
+   Mapper DOCTYPE ì„ ì„ ì–¸í•œë‹¤. - mybatis.org ì°¸ê³ 
         
 
-»ç¿ëÀÚÀÇ ºê¶ó¿ìÀú¸¦ ÅëÇÑ ¿äÃ»
+ì‚¬ìš©ìì˜ ë¸Œë¼ìš°ì €ë¥¼ í†µí•œ ìš”ì²­
 -> Controller
 -> Service
 -> DAO -> Mapper  
--> VO(µ¥ÀÌÅÍ°´Ã¼)
+-> VO(ë°ì´í„°ê°ì²´)
 
-- ÇÁ·ÎÁ§Æ®(¿¹:iot) ¿¡¼­ º¯°æÇÒ »çÇ×
-  ¿ìÅ¬¸¯ > Build path > Configure Build path
-   > ÁÂÃø¸Ş´º 
-   1. Java Compiler ¹öÀüÀ»  1.8 ·Î º¯°æ
-   2. Project Facets : Java ¹öÀüÀ» 1.8 ·Î º¯°æ
+- í”„ë¡œì íŠ¸(ì˜ˆ:iot) ì—ì„œ ë³€ê²½í•  ì‚¬í•­
+  ìš°í´ë¦­ > Build path > Configure Build path
+   > ì¢Œì¸¡ë©”ë‰´ 
+   1. Java Compiler ë²„ì „ì„  1.8 ë¡œ ë³€ê²½
+   2. Project Facets : Java ë²„ì „ì„ 1.8 ë¡œ ë³€ê²½
 
-- pom.xml ¿¡¼­ º¯°æÇÒ »çÇ×
-1. »ó´Ü properties 
-   > java-version À» 1.8 ·Î º¯°æ
-2. ÇÏ´Ü maven-compiler-plugin > 
-   configuration > source ¿Í target ¹öÀüÀ» 1.8 ·Î º¯°æ
-3. »ó´Ü properties 
-   > org.springframework-version ¹öÀüÀ» 5.2.8 RELEASE ·Î º¯°æ
+- pom.xml ì—ì„œ ë³€ê²½í•  ì‚¬í•­
+1. ìƒë‹¨ properties 
+   > java-version ì„ 1.8 ë¡œ ë³€ê²½
+2. í•˜ë‹¨ maven-compiler-plugin > 
+   configuration > source ì™€ target ë²„ì „ì„ 1.8 ë¡œ ë³€ê²½
+3. ìƒë‹¨ properties 
+   > org.springframework-version ë²„ì „ì„ 5.2.8 RELEASE ë¡œ ë³€ê²½
 
 
 
-È¸¿ø°ü¸®Å×ÀÌºí
+íšŒì›ê´€ë¦¬í…Œì´ë¸”
 create table member(
 name varchar2(20) not null,
 id varchar2(20)  primary key,
 pw varchar2(20),
 addr varchar2(50),
 tel varchar2(20),
-gender varchar2(3) default '³²' not null,
+gender varchar2(3) default 'ë‚¨' not null,
 birth  date,
 post  varchar2(7),
 admin varchar2(1) default 'N' not null,

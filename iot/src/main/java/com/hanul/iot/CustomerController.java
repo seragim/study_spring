@@ -14,67 +14,67 @@ import customer.CustomerVO;
 public class CustomerController {
 	@Autowired private CustomerServiceImpl service;
 	
-	//°í°´Á¤º¸»èÁ¦Ã³¸® ¿äÃ»
+	//ê³ ê°ì •ë³´ì‚­ì œì²˜ë¦¬ ìš”ì²­
 	@RequestMapping("/delete.cu")
 	public String delete(int id) {
-		//ÇØ´ç °í°´Á¤º¸¸¦ DB¿¡¼­ »èÁ¦ÇÑ´Ù
+		//í•´ë‹¹ ê³ ê°ì •ë³´ë¥¼ DBì—ì„œ ì‚­ì œí•œë‹¤
 		service.customer_delete(id);
-		//¸ñ·ÏÈ­¸éÀ¸·Î ¿¬°á
+		//ëª©ë¡í™”ë©´ìœ¼ë¡œ ì—°ê²°
 		return "redirect:list.cu";
 	}
 	
 	
-	//°í°´Á¤º¸º¯°æÀúÀåÃ³¸® ¿äÃ»
+	//ê³ ê°ì •ë³´ë³€ê²½ì €ì¥ì²˜ë¦¬ ìš”ì²­
 	@RequestMapping("/update.cu")
 	public String update(CustomerVO vo) {
-		//È­¸é¿¡¼­ º¯°æÀÔ·ÂÇÑ Á¤º¸¸¦ DB¿¡ º¯°æÀúÀåÇÑ´Ù
+		//í™”ë©´ì—ì„œ ë³€ê²½ì…ë ¥í•œ ì •ë³´ë¥¼ DBì— ë³€ê²½ì €ì¥í•œë‹¤
 		service.customer_update(vo);
-		//»ó¼¼È­¸éÀ¸·Î ¿¬°á
+		//ìƒì„¸í™”ë©´ìœ¼ë¡œ ì—°ê²°
 		return "redirect:detail.cu?id=" + vo.getId();
 	}
 	
 	
-	//°í°´Á¤º¸¼öÁ¤È­¸é ¿äÃ»
+	//ê³ ê°ì •ë³´ìˆ˜ì •í™”ë©´ ìš”ì²­
 	@RequestMapping("/modify.cu")
 	public String modify(int id, Model model) {
-		//ÇØ´ç °í°´Á¤º¸¸¦ DB¿¡¼­ Á¶È¸ÇÑ´Ù.
-		//Á¶È¸ÇÑ µ¥ÀÌÅÍ¸¦ ¼öÁ¤È­¸é¿¡ Ãâ·ÂÇÑ´Ù
+		//í•´ë‹¹ ê³ ê°ì •ë³´ë¥¼ DBì—ì„œ ì¡°íšŒí•œë‹¤.
+		//ì¡°íšŒí•œ ë°ì´í„°ë¥¼ ìˆ˜ì •í™”ë©´ì— ì¶œë ¥í•œë‹¤
 		model.addAttribute("vo", service.customer_detail(id));
 		return "customer/modify";
 	}
 	
-	//°í°´»ó¼¼Á¤º¸È­¸é ¿äÃ»
+	//ê³ ê°ìƒì„¸ì •ë³´í™”ë©´ ìš”ì²­
 	@RequestMapping("/detail.cu")
 	public String detail(Model model, int id) {
-		//ÇØ´ç °í°´Á¤º¸¸¦ DB¿¡¼­ Á¶È¸ÇÑ´Ù.
-		//»ó¼¼È­¸é¿¡ Á¶È¸ÇÑ °í°´Á¤º¸¸¦ Ãâ·ÂÇÒ ¼ö ÀÖµµ·Ï µ¥ÀÌÅÍ¸¦ ´ã´Â´Ù
+		//í•´ë‹¹ ê³ ê°ì •ë³´ë¥¼ DBì—ì„œ ì¡°íšŒí•œë‹¤.
+		//ìƒì„¸í™”ë©´ì— ì¡°íšŒí•œ ê³ ê°ì •ë³´ë¥¼ ì¶œë ¥í•  ìˆ˜ ìˆë„ë¡ ë°ì´í„°ë¥¼ ë‹´ëŠ”ë‹¤
 		model.addAttribute("vo", service.customer_detail(id) );
 		return "customer/detail";
 	}
 	
 	
-	//°í°´Á¤º¸ÀúÀåÃ³¸® ¿äÃ»
+	//ê³ ê°ì •ë³´ì €ì¥ì²˜ë¦¬ ìš”ì²­
 	@RequestMapping("/insert.cu")
 	public String insert(CustomerVO vo) {
-		//È­¸é¿¡¼­ ÀÔ·ÂÇÑ °í°´Á¤º¸¸¦ DB¿¡ ÀúÀåÇÑ´Ù
+		//í™”ë©´ì—ì„œ ì…ë ¥í•œ ê³ ê°ì •ë³´ë¥¼ DBì— ì €ì¥í•œë‹¤
 		service.customer_insert(vo);
-		//¸ñ·ÏÈ­¸éÀ¸·Î ¿¬°á
+		//ëª©ë¡í™”ë©´ìœ¼ë¡œ ì—°ê²°
 		return "redirect:list.cu";
 	}
 	
 	
-	//½Å±Ô°í°´ÀÔ·ÂÈ­¸é ¿äÃ»
+	//ì‹ ê·œê³ ê°ì…ë ¥í™”ë©´ ìš”ì²­
 	@RequestMapping("/new.cu")
 	public String customer() {
 		return "customer/new";
 	}
 	
 	
-	//°í°´¸ñ·ÏÈ­¸é ¿äÃ»
+	//ê³ ê°ëª©ë¡í™”ë©´ ìš”ì²­
 	@RequestMapping("/list.cu")
 	public String list(Model model, HttpSession session) {
 		session.setAttribute("category", "cu");
-		//DB¿¡¼­ °í°´¸ñ·ÏÀ» Á¶È¸ÇØ¿Í ¸ñ·ÏÈ­¸é¿¡ Ãâ·ÂÇÒ ¼ö ÀÖµµ·Ï ÇÑ´Ù
+		//DBì—ì„œ ê³ ê°ëª©ë¡ì„ ì¡°íšŒí•´ì™€ ëª©ë¡í™”ë©´ì— ì¶œë ¥í•  ìˆ˜ ìˆë„ë¡ í•œë‹¤
 		model.addAttribute("list"
 				, service.customer_list() );
 		return "customer/list";
