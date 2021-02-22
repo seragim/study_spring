@@ -14,67 +14,67 @@ import customer.CustomerVO;
 public class CustomerController {
 	@Autowired private CustomerServiceImpl service;
 	
-	//����������ó�� ��û
+	//고객정보삭제처리 요청
 	@RequestMapping("/delete.cu")
 	public String delete(int id) {
-		//�ش� �������� DB���� �����Ѵ�
+		//해당 고객정보를 DB에서 삭제한다
 		service.customer_delete(id);
-		//���ȭ������ ����
+		//목록화면으로 연결
 		return "redirect:list.cu";
 	}
 	
 	
-	//��������������ó�� ��û
+	//고객정보변경저장처리 요청
 	@RequestMapping("/update.cu")
 	public String update(CustomerVO vo) {
-		//ȭ�鿡�� �����Է��� ������ DB�� ���������Ѵ�
+		//화면에서 변경입력한 정보를 DB에 변경저장한다
 		service.customer_update(vo);
-		//��ȭ������ ����
+		//상세화면으로 연결
 		return "redirect:detail.cu?id=" + vo.getId();
 	}
 	
 	
-	//����������ȭ�� ��û
+	//고객정보수정화면 요청
 	@RequestMapping("/modify.cu")
 	public String modify(int id, Model model) {
-		//�ش� �������� DB���� ��ȸ�Ѵ�.
-		//��ȸ�� �����͸� ����ȭ�鿡 ����Ѵ�
+		//해당 고객정보를 DB에서 조회한다.
+		//조회한 데이터를 수정화면에 출력한다
 		model.addAttribute("vo", service.customer_detail(id));
 		return "customer/modify";
 	}
 	
-	//��������ȭ�� ��û
+	//고객상세정보화면 요청
 	@RequestMapping("/detail.cu")
 	public String detail(Model model, int id) {
-		//�ش� �������� DB���� ��ȸ�Ѵ�.
-		//��ȭ�鿡 ��ȸ�� �������� ����� �� �ֵ��� �����͸� ��´�
+		//해당 고객정보를 DB에서 조회한다.
+		//상세화면에 조회한 고객정보를 출력할 수 있도록 데이터를 담는다
 		model.addAttribute("vo", service.customer_detail(id) );
 		return "customer/detail";
 	}
 	
 	
-	//����������ó�� ��û
+	//고객정보저장처리 요청
 	@RequestMapping("/insert.cu")
 	public String insert(CustomerVO vo) {
-		//ȭ�鿡�� �Է��� �������� DB�� �����Ѵ�
+		//화면에서 입력한 고객정보를 DB에 저장한다
 		service.customer_insert(vo);
-		//���ȭ������ ����
+		//목록화면으로 연결
 		return "redirect:list.cu";
 	}
 	
 	
-	//�ű԰��Է�ȭ�� ��û
+	//신규고객입력화면 요청
 	@RequestMapping("/new.cu")
 	public String customer() {
 		return "customer/new";
 	}
 	
 	
-	//�����ȭ�� ��û
+	//고객목록화면 요청
 	@RequestMapping("/list.cu")
 	public String list(Model model, HttpSession session) {
 		session.setAttribute("category", "cu");
-		//DB���� ������� ��ȸ�ؿ� ���ȭ�鿡 ����� �� �ֵ��� �Ѵ�
+		//DB에서 고객목록을 조회해와 목록화면에 출력할 수 있도록 한다
 		model.addAttribute("list"
 				, service.customer_list() );
 		return "customer/list";
