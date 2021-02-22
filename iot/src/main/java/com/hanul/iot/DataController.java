@@ -30,6 +30,16 @@ public class DataController {
 	private String animalUrl 
 	= "http://openapi.animal.go.kr/openapi/service/rest/abandonmentPublicSrvc/";
 	
+	//유기동물 시도조회 요청
+	@ResponseBody @RequestMapping(value="/data/animal/sido", produces="application/json; charset=utf-8")
+	public String animal_sido() {
+		StringBuffer url = new StringBuffer( animalUrl + "sido");
+		url.append("?ServiceKey=").append(key);
+		url.append("&_type=json");
+		url.append("&numOfRows=30");
+		return common.json_list( common.requestAPI(url) );
+	}
+	
 	//유기동물정보조회 요청
 	@ResponseBody @RequestMapping(value="/data/animal/list"
 							, produces="application/json; charset=utf-8")
@@ -39,6 +49,7 @@ public class DataController {
 		url.append("&_type=json");
 		url.append("&pageNo=").append( map.get("pageNo") );
 		url.append("&numOfRows=").append( map.get("rows") );
+		url.append("&upr_cd=").append( map.get("sido") );
 		return common.json_list( common.requestAPI(url) );
 	}
 	
