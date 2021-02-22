@@ -25,11 +25,11 @@ import notice.NoticeVO;
 public class NoticeController {
 	@Autowired private NoticeServiceImpl service;
 	
-	//´ä±ÛÀúÀåÃ³¸® ¿äÃ»
+	//ë‹µê¸€ì €ì¥ì²˜ë¦¬ ìš”ì²­
 	@RequestMapping("/reply_insert.no")
 	public String reply_insert(NoticeVO vo, MultipartFile file
 								, HttpSession session) {
-		//È­¸é¿¡¼­ ÀÔ·ÂÇÑ ´ä±ÛÁ¤º¸¸¦ DB¿¡ ÀúÀåÇÑ ÈÄ ¸ñ·ÏÈ­¸éÀ¸·Î ¿¬°á
+		//í™”ë©´ì—ì„œ ì…ë ¥í•œ ë‹µê¸€ì •ë³´ë¥¼ DBì— ì €ì¥í•œ í›„ ëª©ë¡í™”ë©´ìœ¼ë¡œ ì—°ê²°
 		if( !file.isEmpty() ) {
 			vo.setFilename( file.getOriginalFilename() );
 			vo.setFilepath( common.fileUpload(session, file, "notice") );
@@ -42,27 +42,27 @@ public class NoticeController {
 	
 	
 	
-	//´ä±Û¾²±âÈ­¸é ¿äÃ»
+	//ë‹µê¸€ì“°ê¸°í™”ë©´ ìš”ì²­
 	@RequestMapping("/reply.no")
 	public String reply(int id, Model model) {
-		//´ä±ÛÀúÀå½Ã ¿ø±ÛÀÇ Á¤º¸°¡ ÇÊ¿äÇÏ¹Ç·Î ¿ø±ÛÁ¤º¸¸¦ Á¶È¸
+		//ë‹µê¸€ì €ì¥ì‹œ ì›ê¸€ì˜ ì •ë³´ê°€ í•„ìš”í•˜ë¯€ë¡œ ì›ê¸€ì •ë³´ë¥¼ ì¡°íšŒ
 	 	model.addAttribute("vo", service.notice_view(id) );
 		return "notice/reply";
 	}
 	
 	
 	
-	//Ã·ºÎÆÄÀÏ ´Ù¿î·ÎµåÃ³¸® ¿äÃ»
+	//ì²¨ë¶€íŒŒì¼ ë‹¤ìš´ë¡œë“œì²˜ë¦¬ ìš”ì²­
 	@ResponseBody @RequestMapping("/download.no")
 	public void download(int id, HttpSession session
 							, HttpServletResponse response) {
-		//ÇØ´ç °øÁö±Û¿¡ Ã·ºÎµÈ ÆÄÀÏÀ» ¼­¹ö·ÎºÎÅÍ ´Ù¿î·ÎµåÇÑ´Ù
+		//í•´ë‹¹ ê³µì§€ê¸€ì— ì²¨ë¶€ëœ íŒŒì¼ì„ ì„œë²„ë¡œë¶€í„° ë‹¤ìš´ë¡œë“œí•œë‹¤
 		NoticeVO vo = service.notice_view(id);
 		common.fileDownload(vo.getFilename(), vo.getFilepath(), session, response);
 	}
 	
 	
-	//°øÁö±Û¼öÁ¤Ã³¸® ¿äÃ»
+	//ê³µì§€ê¸€ìˆ˜ì •ì²˜ë¦¬ ìš”ì²­
 	@RequestMapping("/update.no")
 	public String update(NoticeVO vo, MultipartFile file, String filename
 						, HttpSession session) {
@@ -71,61 +71,61 @@ public class NoticeController {
 							+ "/" + notice.getFilepath();
 		
 		if( !file.isEmpty() ) { 
-			//ÆÄÀÏÀ» Ã·ºÎÇÑ °æ¿ì: ¿ø·¡ ¾ø¾ú´Âµ¥ ½Å±Ô Ã·ºÎ, ¿ø·¡ ÀÖ¾ú´ø°Å ¹Ù²ã Ã·ºÎ
+			//íŒŒì¼ì„ ì²¨ë¶€í•œ ê²½ìš°: ì›ë˜ ì—†ì—ˆëŠ”ë° ì‹ ê·œ ì²¨ë¶€, ì›ë˜ ìˆì—ˆë˜ê±° ë°”ê¿” ì²¨ë¶€
 			vo.setFilename( file.getOriginalFilename() );
 			vo.setFilepath( common.fileUpload(session, file, "notice"));
-			//¿ø·¡ Ã·ºÎµÈ ÆÄÀÏÀÌ ÀÖ´Ù¸é ¹°¸®Àû¿µ¿ª¿¡¼­ ÆÄÀÏÀ» »èÁ¦
+			//ì›ë˜ ì²¨ë¶€ëœ íŒŒì¼ì´ ìˆë‹¤ë©´ ë¬¼ë¦¬ì ì˜ì—­ì—ì„œ íŒŒì¼ì„ ì‚­ì œ
 			if( notice.getFilename()!=null ) {
 				File f = new File(realFile);
 				if( f.exists() ) f.delete();
 			}
 			
 		}else {
-			//ÆÄÀÏÀ» Ã·ºÎÇÏÁö ¾ÊÀº °æ¿ì
+			//íŒŒì¼ì„ ì²¨ë¶€í•˜ì§€ ì•Šì€ ê²½ìš°
 			if( filename.isEmpty() ) {
-				//¿ø·¡ Ã·ºÎµÈ ÆÄÀÏÀ» »èÁ¦ÇÑ °æ¿ì
+				//ì›ë˜ ì²¨ë¶€ëœ íŒŒì¼ì„ ì‚­ì œí•œ ê²½ìš°
 				if( notice.getFilename()!=null ) {
 					File f = new File(realFile);
 					if( f.exists() ) f.delete();
 				}
 				
 			}else {
-				//¿ø·¡ Ã·ºÎµÈ ÆÄÀÏÀ» ±×´ë·Î »ç¿ëÇÏ´Â °æ¿ì
+				//ì›ë˜ ì²¨ë¶€ëœ íŒŒì¼ì„ ê·¸ëŒ€ë¡œ ì‚¬ìš©í•˜ëŠ” ê²½ìš°
 				vo.setFilename( notice.getFilename() );
 				vo.setFilepath( notice.getFilepath() );
 			}
 		}
 		
-		//È­¸é¿¡¼­ º¯°æÀÔ·ÂÇÑ Á¤º¸¸¦ DB¿¡ ÀúÀåÇÑ ÈÄ º¸±âÈ­¸éÀ¸·Î ¿¬°á
+		//í™”ë©´ì—ì„œ ë³€ê²½ì…ë ¥í•œ ì •ë³´ë¥¼ DBì— ì €ì¥í•œ í›„ ë³´ê¸°í™”ë©´ìœ¼ë¡œ ì—°ê²°
 		service.notice_update(vo);
 		return "redirect:view.no?id=" + vo.getId() ;
 	}
 	
-	//°øÁö±Û¼öÁ¤È­¸é ¿äÃ»
+	//ê³µì§€ê¸€ìˆ˜ì •í™”ë©´ ìš”ì²­
 	@RequestMapping("/modify.no")
 	public String modify(int id, Model model) {
-		//ÇØ´ç °øÁö±ÛÀ» DB¿¡¼­ Á¶È¸ÇØ¿Í ¼öÁ¤È­¸é¿¡ Ãâ·Â
+		//í•´ë‹¹ ê³µì§€ê¸€ì„ DBì—ì„œ ì¡°íšŒí•´ì™€ ìˆ˜ì •í™”ë©´ì— ì¶œë ¥
 		model.addAttribute("vo", service.notice_view(id) );
 		return "notice/modify";
 	}
 	
 	
-	//°øÁö±Û»èÁ¦Ã³¸® ¿äÃ»
+	//ê³µì§€ê¸€ì‚­ì œì²˜ë¦¬ ìš”ì²­
 	@RequestMapping("/delete.no")
 	public String delete(int id) {
-		//ÇØ´ç °øÁö±ÛÀ» DB¿¡¼­ »èÁ¦ÇÑ ÈÄ ¸ñ·ÏÈ­¸éÀ¸·Î ¿¬°á
+		//í•´ë‹¹ ê³µì§€ê¸€ì„ DBì—ì„œ ì‚­ì œí•œ í›„ ëª©ë¡í™”ë©´ìœ¼ë¡œ ì—°ê²°
 		service.notice_delete(id);
 		return "redirect:list.no";
 	}
 	
 	
-	//°øÁö±Û»ó¼¼º¸±âÈ­¸é ¿äÃ»
+	//ê³µì§€ê¸€ìƒì„¸ë³´ê¸°í™”ë©´ ìš”ì²­
 	@RequestMapping("/view.no")
 	public String view(Model model, int id) {
-		//Á¶È¸¼ö Áõ°¡Ã³¸®
+		//ì¡°íšŒìˆ˜ ì¦ê°€ì²˜ë¦¬
 		service.notice_read(id);
 		
-		//¼±ÅÃÇÑ °øÁö±ÛÁ¤º¸¸¦ DB¿¡¼­ Á¶È¸ÇÑ ÈÄ »ó¼¼º¸±âÈ­¸é¿¡ Ãâ·ÂÇÒ ¼ö ÀÖµµ·Ï model¿¡ ´ã´Â´Ù
+		//ì„ íƒí•œ ê³µì§€ê¸€ì •ë³´ë¥¼ DBì—ì„œ ì¡°íšŒí•œ í›„ ìƒì„¸ë³´ê¸°í™”ë©´ì— ì¶œë ¥í•  ìˆ˜ ìˆë„ë¡ modelì— ë‹´ëŠ”ë‹¤
 		model.addAttribute("vo", service.notice_view(id) );
 		model.addAttribute("crlf", "\r\n");
 		model.addAttribute("page", page);
@@ -134,23 +134,23 @@ public class NoticeController {
 	
 	@Autowired private CommonService common;
 	
-	//½Å±Ô°øÁö±Û ÀúÀåÃ³¸® ¿äÃ»
+	//ì‹ ê·œê³µì§€ê¸€ ì €ì¥ì²˜ë¦¬ ìš”ì²­
 	@RequestMapping("/insert.no")
 	public String insert(NoticeVO vo, MultipartFile file, HttpSession session) {
 		MemberVO member = (MemberVO)session.getAttribute("loginInfo");
 		vo.setWriter(  member.getId()  );
-		//Ã·ºÎµÈ ÆÄÀÏÀÌ ÀÖ´Ù¸é µ¥ÀÌÅÍ°´Ã¼¿¡ ÆÄÀÏÁ¤º¸¸¦ ´ã´Â´Ù
+		//ì²¨ë¶€ëœ íŒŒì¼ì´ ìˆë‹¤ë©´ ë°ì´í„°ê°ì²´ì— íŒŒì¼ì •ë³´ë¥¼ ë‹´ëŠ”ë‹¤
 		if( ! file.isEmpty() ) {
 			vo.setFilename( file.getOriginalFilename() );
 			vo.setFilepath( common.fileUpload(session, file, "notice") );
 		}
-		//È­¸é¿¡¼­ ÀÔ·ÂÇÑ Á¤º¸¸¦ DB¿¡ ÀúÀåÇÑ ÈÄ ¸ñ·ÏÈ­¸éÀ¸·Î ¿¬°á
+		//í™”ë©´ì—ì„œ ì…ë ¥í•œ ì •ë³´ë¥¼ DBì— ì €ì¥í•œ í›„ ëª©ë¡í™”ë©´ìœ¼ë¡œ ì—°ê²°
 		service.notice_insert(vo);
 		return "redirect:list.no";
 	}
 	
 	
-	//°øÁö±Û ½Å±ÔÈ­¸é ¿äÃ»
+	//ê³µì§€ê¸€ ì‹ ê·œí™”ë©´ ìš”ì²­
 	@RequestMapping("/new.no")
 	public String notice() {
 		return "notice/new";
@@ -159,13 +159,13 @@ public class NoticeController {
 	@Autowired private MemberServiceImpl member;
 	@Autowired private NoticePage page;
 	
-	//°øÁö±Û¸ñ·Ï Á¶È¸
+	//ê³µì§€ê¸€ëª©ë¡ ì¡°íšŒ
 	@RequestMapping("/list.no")
 	public String list(Model model, HttpSession session
 						, @RequestParam(defaultValue = "1") int curPage
 						, String search, String keyword
 						) {
-//		//ÀÓ½ÃÀúÀå -----
+//		//ì„ì‹œì €ì¥ -----
 //		HashMap<String, Object> map = new HashMap<String, Object>();
 //		map.put("id", "admin");
 //		map.put("pw", "manager");
@@ -174,7 +174,7 @@ public class NoticeController {
 //		//------------
 		
 		session.setAttribute("category", "no");
-		//DB¿¡¼­ °øÁö±Û¸ñ·ÏÀ» Á¶È¸ÇÑÈÄ ¸ñ·ÏÈ­¸é¿¡ Ãâ·Â
+		//DBì—ì„œ ê³µì§€ê¸€ëª©ë¡ì„ ì¡°íšŒí•œí›„ ëª©ë¡í™”ë©´ì— ì¶œë ¥
 		page.setCurPage(curPage);
 		page.setSearch(search);
 		page.setKeyword(keyword);

@@ -3,13 +3,13 @@ package member;
 import java.util.HashMap;
 
 public interface MemberService {
-	boolean member_join(MemberVO vo); //È¸¿ø°¡ÀÔ½Ã È¸¿øÁ¤º¸ ÀúÀå
-	MemberVO member_select(String id); //È¸¿øÁ¤º¸Á¶È¸:¸¶ÀÌÆäÀÌÁö
-	MemberVO member_login(HashMap<String, Object> map); //È¸¿ø ·Î±×ÀÎÃ³¸®
-	boolean member_update(MemberVO vo); //È¸¿øÁ¤º¸ º¯°æ
-	boolean member_delete(String id); //È¸¿øÅ»Åğ
-	boolean member_id_check(String id); //È¸¿ø°¡ÀÔ½Ã ¾ÆÀÌµğÁßº¹È®ÀÎ
-	boolean member_social_id(MemberVO vo);//¼Ò¼È·Î±×ÀÎ½Ã È¸¿øÀÇ Á¸Àç¿©ºÎ
-	boolean member_social_insert(MemberVO vo);//¼Ò¼È·Î±×ÀÎ½Ã È¸¿ø ½Å±ÔÀúÀå
-	boolean member_social_update(MemberVO vo);//¼Ò¼È·Î±×ÀÎ½Ã È¸¿ø º¯°æÀúÀå
+	boolean member_join(MemberVO vo); //íšŒì›ê°€ì…ì‹œ íšŒì›ì •ë³´ ì €ì¥
+	MemberVO member_select(String id); //íšŒì›ì •ë³´ì¡°íšŒ:ë§ˆì´í˜ì´ì§€
+	MemberVO member_login(HashMap<String, Object> map); //íšŒì› ë¡œê·¸ì¸ì²˜ë¦¬
+	boolean member_update(MemberVO vo); //íšŒì›ì •ë³´ ë³€ê²½
+	boolean member_delete(String id); //íšŒì›íƒˆí‡´
+	boolean member_id_check(String id); //íšŒì›ê°€ì…ì‹œ ì•„ì´ë””ì¤‘ë³µí™•ì¸
+	boolean member_social_id(MemberVO vo);//ì†Œì…œë¡œê·¸ì¸ì‹œ íšŒì›ì˜ ì¡´ì¬ì—¬ë¶€
+	boolean member_social_insert(MemberVO vo);//ì†Œì…œë¡œê·¸ì¸ì‹œ íšŒì› ì‹ ê·œì €ì¥
+	boolean member_social_update(MemberVO vo);//ì†Œì…œë¡œê·¸ì¸ì‹œ íšŒì› ë³€ê²½ì €ì¥
 }

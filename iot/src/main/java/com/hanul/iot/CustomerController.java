@@ -14,67 +14,67 @@ import customer.CustomerVO;
 public class CustomerController {
 	@Autowired private CustomerServiceImpl service;
 	
-	//°í°´Á¤º¸»èÁ¦Ã³¸® ¿äÃ»
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½ï¿½Ã»
 	@RequestMapping("/delete.cu")
 	public String delete(int id) {
-		//ÇØ´ç °í°´Á¤º¸¸¦ DB¿¡¼­ »èÁ¦ÇÑ´Ù
+		//ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ DBï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
 		service.customer_delete(id);
-		//¸ñ·ÏÈ­¸éÀ¸·Î ¿¬°á
+		//ï¿½ï¿½ï¿½È­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		return "redirect:list.cu";
 	}
 	
 	
-	//°í°´Á¤º¸º¯°æÀúÀåÃ³¸® ¿äÃ»
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½ï¿½Ã»
 	@RequestMapping("/update.cu")
 	public String update(CustomerVO vo) {
-		//È­¸é¿¡¼­ º¯°æÀÔ·ÂÇÑ Á¤º¸¸¦ DB¿¡ º¯°æÀúÀåÇÑ´Ù
+		//È­ï¿½é¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ DBï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
 		service.customer_update(vo);
-		//»ó¼¼È­¸éÀ¸·Î ¿¬°á
+		//ï¿½ï¿½È­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		return "redirect:detail.cu?id=" + vo.getId();
 	}
 	
 	
-	//°í°´Á¤º¸¼öÁ¤È­¸é ¿äÃ»
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½Ã»
 	@RequestMapping("/modify.cu")
 	public String modify(int id, Model model) {
-		//ÇØ´ç °í°´Á¤º¸¸¦ DB¿¡¼­ Á¶È¸ÇÑ´Ù.
-		//Á¶È¸ÇÑ µ¥ÀÌÅÍ¸¦ ¼öÁ¤È­¸é¿¡ Ãâ·ÂÇÑ´Ù
+		//ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ DBï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ï¿½Ñ´ï¿½.
+		//ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½È­ï¿½é¿¡ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
 		model.addAttribute("vo", service.customer_detail(id));
 		return "customer/modify";
 	}
 	
-	//°í°´»ó¼¼Á¤º¸È­¸é ¿äÃ»
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½Ã»
 	@RequestMapping("/detail.cu")
 	public String detail(Model model, int id) {
-		//ÇØ´ç °í°´Á¤º¸¸¦ DB¿¡¼­ Á¶È¸ÇÑ´Ù.
-		//»ó¼¼È­¸é¿¡ Á¶È¸ÇÑ °í°´Á¤º¸¸¦ Ãâ·ÂÇÒ ¼ö ÀÖµµ·Ï µ¥ÀÌÅÍ¸¦ ´ã´Â´Ù
+		//ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ DBï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ï¿½Ñ´ï¿½.
+		//ï¿½ï¿½È­ï¿½é¿¡ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Öµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½Â´ï¿½
 		model.addAttribute("vo", service.customer_detail(id) );
 		return "customer/detail";
 	}
 	
 	
-	//°í°´Á¤º¸ÀúÀåÃ³¸® ¿äÃ»
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½ï¿½Ã»
 	@RequestMapping("/insert.cu")
 	public String insert(CustomerVO vo) {
-		//È­¸é¿¡¼­ ÀÔ·ÂÇÑ °í°´Á¤º¸¸¦ DB¿¡ ÀúÀåÇÑ´Ù
+		//È­ï¿½é¿¡ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ DBï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
 		service.customer_insert(vo);
-		//¸ñ·ÏÈ­¸éÀ¸·Î ¿¬°á
+		//ï¿½ï¿½ï¿½È­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		return "redirect:list.cu";
 	}
 	
 	
-	//½Å±Ô°í°´ÀÔ·ÂÈ­¸é ¿äÃ»
+	//ï¿½Å±Ô°ï¿½ï¿½Ô·ï¿½È­ï¿½ï¿½ ï¿½ï¿½Ã»
 	@RequestMapping("/new.cu")
 	public String customer() {
 		return "customer/new";
 	}
 	
 	
-	//°í°´¸ñ·ÏÈ­¸é ¿äÃ»
+	//ï¿½ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½Ã»
 	@RequestMapping("/list.cu")
 	public String list(Model model, HttpSession session) {
 		session.setAttribute("category", "cu");
-		//DB¿¡¼­ °í°´¸ñ·ÏÀ» Á¶È¸ÇØ¿Í ¸ñ·ÏÈ­¸é¿¡ Ãâ·ÂÇÒ ¼ö ÀÖµµ·Ï ÇÑ´Ù
+		//DBï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ï¿½Ø¿ï¿½ ï¿½ï¿½ï¿½È­ï¿½é¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Öµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½
 		model.addAttribute("list"
 				, service.customer_list() );
 		return "customer/list";

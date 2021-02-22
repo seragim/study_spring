@@ -11,24 +11,24 @@ import org.springframework.stereotype.Repository;
 public class EmployeeDAO implements EmployeeService {
 	@Autowired @Qualifier("hr") private SqlSession sql;
 	
-	@Override //ÀüÃ¼ »ç¿ø¸ñ·Ï
+	@Override //ì „ì²´ ì‚¬ì›ëª©ë¡
 	public List<EmployeeVO> employee_list() {
 		return sql.selectList("employee.mapper.list");
 	}
 
-	@Override //Æ¯Á¤»ç¹øÀÇ »ç¿øÁ¤º¸
+	@Override //íŠ¹ì •ì‚¬ë²ˆì˜ ì‚¬ì›ì •ë³´
 	public EmployeeVO employee_detail(int id) {
 		return sql.selectOne("employee.mapper.detail", id);
 	}
 
-	@Override //ºÎ¼­Á¤º¸¸ñ·Ï
+	@Override //ë¶€ì„œì •ë³´ëª©ë¡
 	public List<DepartmentVO> employee_department() {
 		List<DepartmentVO> list = sql.selectList("employee.mapper.department");
 		return list;
 //				sql.selectList("employee.mapper.department");
 	}
 
-	@Override  //Æ¯Á¤ºÎ¼­¿¡ ¼ÓÇÑ »ç¿ø¸ñ·Ï
+	@Override  //íŠ¹ì •ë¶€ì„œì— ì†í•œ ì‚¬ì›ëª©ë¡
 	public List<EmployeeVO> employee_list(String depts) {
 		//String --> int : Integer.parseInt
 		//String --> Integer : Integer.valueOf --> int(Auto Unboxing)
