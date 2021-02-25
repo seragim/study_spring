@@ -70,7 +70,7 @@ public class BoardController {
 	public String delete(int id, HttpSession session, Model model) {
 		//첨부파일이 있는 글의 경우 물리적 서버의 영역에서 파일을 삭제
 		BoardVO vo = service.board_view(id);
-		if( vo.getFilename()!=null  ) {
+		if( vo.getFilename()!=null ) {
 			File file = new File( session.getServletContext()
 									.getRealPath("resources")
 											+ "/" + vo.getFilepath() );
@@ -95,9 +95,7 @@ public class BoardController {
 	
 	//방명록 수정 저장처리 요청
 	@RequestMapping("/update.bo")
-	public String update(BoardVO vo, String attach
-							, HttpSession session
-							, MultipartFile file, Model model) {
+	public String update(BoardVO vo, String attach, HttpSession session, MultipartFile file, Model model) {
 		
 		BoardVO board = service.board_view( vo.getId() );
 		String uuid = session.getServletContext().getRealPath("resources")
@@ -182,10 +180,7 @@ public class BoardController {
 	
 	//방명록 목록 조회 요청
 	@RequestMapping("/list.bo")
-	public String list(HttpSession session, Model model
-						, String search, String keyword
-						, @RequestParam(defaultValue="10") int pageList
-						, @RequestParam(defaultValue="list") String viewType
+	public String list(HttpSession session, Model model, String search, String keyword, @RequestParam(defaultValue="10") int pageList, @RequestParam(defaultValue="list") String viewType
 						, @RequestParam(defaultValue="1") int curPage ) {
 		session.setAttribute("category", "bo");
 		//DB에서 방명록 목록을 조회해와 목록화면에 출력

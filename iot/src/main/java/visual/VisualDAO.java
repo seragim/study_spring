@@ -19,11 +19,29 @@ public class VisualDAO implements VisualService {
 		// TODO Auto-generated method stub
 		return sql.selectList("visual.mapper.department_analysis");
 	}
+	
+	@Override
+	public List<LowerKeyMap> hirement_analysis_year() {
+		// TODO Auto-generated method stub
+		return sql.selectList("visual.mapper.department_analysis_year");
+	}
 
 	@Override
-	public List<LowerKeyMap> hirement_analysis() {
+	public List<LowerKeyMap> hirement_analysis_month() {
 		// TODO Auto-generated method stub
-		return null;
+		return sql.selectList("visual.mapper.department_analysis_month");
+	}
+
+	@Override
+	public List<LowerKeyMap> hirement_analysis_top3_year() {
+		// TODO Auto-generated method stub
+		return sql.selectList("visual.mapper.hirement_analysis_top3_year");
+	}
+
+	@Override
+	public List<LowerKeyMap> hirement_analysis_top3_month() {
+		// TODO Auto-generated method stub
+		return sql.selectList("visual.mapper.hirement_analysis_top3_month");
 	}
 
 }

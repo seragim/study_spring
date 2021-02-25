@@ -1,6 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="visual.mapper">
+
+	<select id="hirement_analysis_top3_year" resultType="common.LowerKeyMap">
+<![CDATA[ 
+		select (select department_name from departments where department_id=e.department_id) department_id, sum(decode(unit, '2001', count, 0)) as "y2001",
+                      sum(decode(unit, '2002', count, 0)) as "y2002",
+                      sum(decode(unit, '2003', count, 0)) as "y2003",
+                      sum(decode(unit, '2004', count, 0)) as "y2004",
+                      sum(decode(unit, '2005', count, 0)) as "y2005",
+                      sum(decode(unit, '2006', count, 0)) as "y2006",
+                      sum(decode(unit, '2007', count, 0)) as "y2007",
+                      sum(decode(unit, '2008', count, 0)) as "y2008"
+		from (
+		select department_id, to_char(hire_date, 'yyyy') unit, count(*) count
+		from employees
+		where department_id in (
+		select department_id from
+		(select dense_rank() over(order by count desc) rank, department_id, count from
+		(select department_id, count(*) count
+		from employees
+		GROUP by department_id))
+		where rank <= 3
+		)
+		group by department_id, to_char(hire_date, 'yyyy')
+		) e
+		GROUP by department_id
+]]>
+	</select>
+	
+	<select id="hirement_analysis_top3_month" resultType="common.LowerKeyMap">
+<![CDATA[ 
+		select (select department_name from departments where department_id=e.department_id) department_id, sum(decode(unit, '01', count, 0)) as "m01",
+                      sum(decode(unit, '02', count, 0)) as "m02",
+                      sum(decode(unit, '03', count, 0)) as "m03",
+                      sum(decode(unit, '04', count, 0)) as "m04",
+                      sum(decode(unit, '05', count, 0)) as "m05",
+                      sum(decode(unit, '06', count, 0)) as "m06",
+                      sum(decode(unit, '07', count, 0)) as "m07",
+                      sum(decode(unit, '08', count, 0)) as "m08"
+                      sum(decode(unit, '09', count, 0)) as "m09"
+                      sum(decode(unit, '10', count, 0)) as "m10"
+                      sum(decode(unit, '11', count, 0)) as "m11"
+                      sum(decode(unit, '12', count, 0)) as "m12"
+		from (
+		select department_id, to_char(hire_date, 'mm') unit, count(*) count
+		from employees
+		where department_id in (
+		select department_id from
+		(select dense_rank() over(order by count desc) rank, department_id, count from
+		(select department_id, count(*) count
+		from employees
+		GROUP by department_id))
+		where rank <= 3
+		)
+		group by department_id, to_char(hire_date, 'mm')
+		) e
+		GROUP by department_id
+]]>	
+	</select>
+	
+	<select id="department_analysis_year" resultType="common.LowerKeyMap">
+		select to_char(hire_date, 'yyyy')|| '년' unit, count(*) count
+		from employees
+		group by to_char(hire_date, 'yyyy')
+		order by 1
+	</select>
+	
+	<select id="department_analysis_month" resultType="common.LowerKeyMap">
+		select to_char(hire_date, 'mm')|| '월' unit, count(*) count
+		from employees
+		group by to_char(hire_date, 'mm')
+		order by 1
+	</select>
+
 	<select id="department_analysis" resultType="common.LowerKeyMap">
 		select nvl( (select department_name from departments 
 					where department_id=e.department_id), '미배치') department_name, count(*) count
