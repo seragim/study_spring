@@ -73,7 +73,7 @@ end
 <!-- 페이지별 목록 조회시 -->
 	select * from
 	(select rownum no,  n.*, (select name from member m
-			 				 where m.id=n.writer) name 
+			 				 where m.id=n.writer) name
 	from (select * from notice <include refid="search_where"/>
 	      order by root, step desc) n
 	order by no desc)

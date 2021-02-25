@@ -275,11 +275,20 @@ public class CommonService {
 		json = new JSONObject(list);
 		json = (JSONObject)json.get("response");
 		json = (JSONObject)json.get("body");
-		int count = json.getInt("totalCount");
-		json = (JSONObject)json.get("items");
+		int count = 0;
+		if( json.has("totalCount") ) {
+			count = json.getInt("totalCount");
+		}
+	//	if( json.get("items") instanceof JSONObject )
+		if( count>0 ) {
+			json = (JSONObject)json.get("items");
+			json.put("count", count);
+			return json.toString();
+		} else {
+			json.put("count", count);
+			return null;
+		}
 		
-		json.put("count", count);
-		return json.toString();
 	}
 	
 	

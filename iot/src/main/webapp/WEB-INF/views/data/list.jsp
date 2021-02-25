@@ -22,16 +22,17 @@
 	
 #data-list .pharmacy li div:first-child { height:25px; }
 #data-list .pharmacy li div:last-child { font-size:14px;}
-table.animal img{ width: 100px; height: 100px; }
+table.animal img { width:100px; height:100px; }
 
-ul.animal img { width: 100%; height: 100%; }
-ul.animal li div.li-top { height: 65%; }
-ul.animal li div.li-top > div { float: left; padding: 0; height: 100%; }
-ul.animal li div.li-top > div:first-child { width: 40%; }
-ul.animal li > div:nth-child(2) { font-size: 14px; }
-.spec { width: 60%; }
-.spec div { height: 25% !important; padding: 0 0 0 10px !important; }
-.spec div:nth-child(3){  }
+ul.animal img { width:100%; height:100%; } 
+ul.animal li div.li-top { height:65% }
+ul.animal li div.li-top > div { float:left; padding:0; height:100%; }
+ul.animal li div.li-top > div:first-child { width:40%; }
+ul.animal li > div:nth-child(2) { font-size:14px }
+.spec { width:60%; }
+.spec div { height:25% !important; padding:0 0 0 10px !important; }
+.spec div:nth-child(3) {  }
+
 
 
 </style>
@@ -80,7 +81,6 @@ function pharmacy_list( page ){
 		data: { pageNo:page, rows:pageList },
 		success: function( response ){
 			$('.loading').css('display', 'none');
-			console.log( response );
 			if( viewType=='list' ){
 				pharmacy_list_data( $(response.item), true );
 			}else{
@@ -100,33 +100,121 @@ function animal_sido(){
 	$.ajax({
 		url: 'data/animal/sido',
 		success: function(response){
-			console.log(response);
-			var tag = '<ul class="animal-top">'
+			var tag 
+			= '<ul class="animal-top">'
 				+ '<li><select id="sido" class="w-px120">'
 					+ '<option value="">시도 선택</option>';
-				$(response.item).each(function(){
-					tag += '<option value="'+ this.orgCd +'">'+ this.orgdownNm +'</option>'
-
-				});
-				tag += '</select></li></ul>';
-				$('#list-top').prepend(tag);
-
+			$(response.item).each(function(){
+				tag += '<option value="'+ this.orgCd +'">'+ this.orgdownNm +'</option>';
+			});
+			tag += '</select></li></ul>';
+			$('#list-top').prepend(tag);
+			animal_type();
 			
+		},error: function(req,text){
+			alert(text+':'+req.status);
+		}
+	});
+}
+
+//축종
+function animal_type(){
+	var tag 
+		= '<li>'
+		+ '<select id="upkind" class="w-px80">'
+		+ '<option value="">축종 선택</option>'
+		+ '<option value="417000">개</option>'
+		+ '<option value="422400">고양이</option>'
+		+ '<option value="429900">기타</option>'
+		+ '</select> '
+		+ '</li>';
+	$('#sido').closest('li').after(tag);
+}
+
+//축종에 따른 품종 조회
+function animal_kind(){
+	$('#kind').remove();
+	if( $('#upkind').val()=='' ) return;
+	
+	$.ajax({
+		url: 'data/animal/animal_kind',
+		data: { upkind:$('#upkind').val() },
+		success: function(response){
+			var tag = '<li>'
+				+ '<select id="kind" class="w-px200">'
+				+ "<option value=''>품종 선택</option>";
+				$(response.item).each(function(){
+					tag += '<option value="'+ this.kindCd +'">'+ this.KNm +'</option>';
+				});
+			tag += '</select></li>';
+			$('#upkind').closest('li').after(tag);
 			
 		},error: function(req, text){
-			alert(text+ req.status);
+			alert(text+':'+req.status);
+		}	
+	});
+}
+
+//시도에 따른 시군구 조회
+function animal_sigungu(){
+	$('#sigungu, #shelter').remove();
+	if( $('#sido').val()=='' ) return;
+
+	$.ajax({
+		url: 'data/animal/sigungu',
+		data: { sido:$('#sido').val() },
+		success: function(response){
+			console.log(response);
+			if( response.item.length>0 ){ //세종시의 경우 시군구가 없음
+				var tag = '<li>'
+					+ '<select class="w-px120" id="sigungu">'
+					+ '<option value="">시군구 선택</option>';
+				$(response.item).each(function(){
+					tag += '<option value="'+ this.orgCd +'">'+ this.orgdownNm +'</option>';				
+				});	
+				tag += '</select></li>';
+				$('#sido').closest('li').after(tag);
+			}
+		},error: function(req, text){
+			alert(text+':'+req.status);
+		}
+	});
+}
+
+//시군구에 따른 보호소 조회
+function animal_shelter(){
+	$('#shelter').remove();
+	if( $('#sigungu').length==0 || $('#sigungu').val()=='' ) return;
+	$.ajax({
+		url: 'data/animal/shelter',
+		data: { sido:$('#sido').val(), sigungu:$("#sigungu").val() },
+		success: function( response ){
+			var tag = '<li><select class="w-px200" id="shelter">'
+				+ '<option value="">보호소 선택</option>';
+			$(response.item).each(function(){
+				tag += '<option value="'+ this.careRegNo +'">'+ this.careNm +'</option>';
+			});
+			tag += '</select></li>';
+			$('#sigungu').closest('li').after(tag);
+		},error: function(req, text){
+			alert(text+':'+req.status);
 		}
 	});
 	
 }
+
 //유기동물목록 조회
 function animal_list( pageNo ){
-	if( $('#sido').length == 0 ) animal_sido();
+	if( $('#sido').length==0 ) animal_sido(); 
 	
 	var animal = new Object();
 	animal.pageNo = pageNo;
 	animal.rows = $('#pageList').val();
-	animal.sido = $('#sido').length >0 ? $('#sido').val() : "";
+	animal.sido = $('#sido').length>0 ? $('#sido').val() : ""; //시도
+	animal.upkind = $('#upkind').length>0 ? $('#upkind').val() : ""; //축종:개,고양이,기타
+	animal.kind = $('#kind').length>0 ? $('#kind').val() : ""; //품종
+	animal.sigungu = $('#sigungu').length>0 ? $('#sigungu').val() : "";  //시군구
+	animal.shelter = $('#shelter').length>0 ? $('#shelter').val() : "";  //보호소
 	
 	$('.loading').css('display', 'block');
 	$.ajax({
@@ -135,71 +223,83 @@ function animal_list( pageNo ){
 		type: 'post',
 		contentType: 'application/json',
 		success: function( response ){
-			console.log(response);
 			if( viewType=='list' )  animal_list_data( $(response.item), true );
 			else					animal_grid_data( $(response.item), true );
 			makePage( response.count, pageNo );
 			$('.loading').css('display', 'none');
 			
 		},error: function(req, text){
-			$('.loading').css('display', 'none');
 			alert(text+':'+req.status);
+			$('.loading').css('display', 'none');
 		}		
-		
 	});
+	
 }
 
 function animal_list_data(data, type){
 	var tag = '<table class="animal">';
-	if( true ){
-		data.each(function (){
-			tag += '<tr><td class="w-px100" rowspan="3"><img src="'+ this.filename +'"/></td>'
-			+ '<th class="w-px80">성별</th><td class="w-px60">'+ this.sexCd +'</td>' 
-			+ '<th class="w-px40">나이</th><td class="w-px100">' + this.age + '</td>'
-			+ '<th class="w-px40">체중</th><td class="w-px80">' + this.weight + '</td>'
-			+ '<th class="w-px40">색상</th><td>' + this.colorCd + '</td>'
-			+ '<th class="w-px40">접수일자</th><td class="w-px100">' + this.happenDt + '</td>'
-			+ '</tr>';
-
-			tag += '<tr><th>특징</th><td colspan="9" class="left">'+ this.specialMark +'</td></tr>'
-			 + '<tr><th>발견장소</th><td colspan="8" class="left">'+ this.happenPlace +'</td>'
-			 + '<td>'+ this.processState +'</td>'
-			 +'</tr>';
-
-			tag += '<tr><td colspan="2">'+ this.careNm +'</td>'
-				+ '<td colspan="7" class="left">'+ this.careAddr +'</td>' 
-				+ '<td colspan="2">'+ this.careTel +'</td>' 
-				+ '</tr>';
+	console.log( data.length )
+	
+	if( (type && data.length==0) 
+			||  (!type && data.length==1 && $('.li-top').length==0) ){
+		tag += '<tr><td colspan="11">해당 유기동물이 없습니다</td></tr>';
+	}else{
+		
+	if( type ){
+		
+		data.each(function(){
+			
+	tag += '<tr><td class="w-px100" rowspan="3"><img src="'+ this.filename +'"/></td>'
+		+ '<th class="w-px80">성별</th><td class="w-px60">'+ this.sexCd +'</td>'
+		+ '<th class="w-px40">나이</th><td class="w-px100">'+ this.age +'</td>'
+		+ '<th class="w-px40">체중</th><td class="w-px80">'+ this.weight +'</td>'
+		+ '<th class="w-px40">색상</th><td>'+ this.colorCd +'</td>'
+		+ '<th class="w-px60">접수일자</th><td class="w-px100">'+ this.happenDt +'</td>'
+		+ '</tr>';
+	tag += '<tr><th>특징</th><td colspan="9" class="left">'+ this.specialMark +'</td></tr>'
+		+ '<tr><th>발견장소</th><td colspan="8" class="left">'+ this.happenPlace +'</td>'
+		+ '<td>'+ this.processState +'</td>'
+		+ '</tr>';
+	tag += '<tr><td colspan="2">'+ this.careNm +'</td>'
+		+ '<td colspan="7" class="left">'+ this.careAddr +'</td>'
+		+ '<td colspan="2">'+ this.careTel +'</td>'
+		+ '</tr>';
 		});
 	}else{
 		data.each(function(){
+		
 			tag += '<tr><td class="w-px100" rowspan="3"><img src="'+ $(this).data('filename') +'"/></td>'
-			+ '<th class="w-px80">성별</th><td class="w-px60">'+ $(this).data('sexCd') +'</td>' 
-			+ '<th class="w-px40">나이</th><td class="w-px100">' + $(this).data('age') + '</td>'
-			+ '<th class="w-px40">체중</th><td class="w-px80">' + $(this).data('weight') + '</td>'
-			+ '<th class="w-px40">색상</th><td>' + $(this).data('colorCd') + '</td>'
-			+ '<th class="w-px40">접수일자</th><td class="w-px100">' + $(this).data('happenDt') + '</td>'
+			+ '<th class="w-px80">성별</th><td class="w-px60">'+ $(this).data('sexcd') +'</td>'
+			+ '<th class="w-px40">나이</th><td class="w-px100">'+ $(this).data('age') +'</td>'
+			+ '<th class="w-px40">체중</th><td class="w-px80">'+ $(this).data('weight') +'</td>'
+			+ '<th class="w-px40">색상</th><td>'+ $(this).data('colorcd') +'</td>'
+			+ '<th class="w-px60">접수일자</th><td class="w-px100">'+ $(this).data('happendt') +'</td>'
 			+ '</tr>';
-
-			tag += '<tr><th>특징</th><td colspan="9" class="left">'+ $(this).data('specialmark') +'</td></tr>'
-			 + '<tr><th>발견장소</th><td colspan="8" class="left">'+ $(this).data('happenplace') +'</td>'
-			 + '<td>'+ $(this).data('processstate') +'</td>'
-			 +'</tr>';
-
-			tag += '<tr><td colspan="2">'+ $(this).data('carenm') +'</td>'
-				+ '<td colspan="7" class="left">'+ $(this).data('careaddr') +'</td>' 
-				+ '<td colspan="2">'+ $(this).data('caretel') +'</td>' 
-				+ '</tr>';
-
+		tag += '<tr><th>특징</th><td colspan="9" class="left">'+ $(this).data('specialmark') +'</td></tr>'
+			+ '<tr><th>발견장소</th><td colspan="8" class="left">'+ $(this).data('happenplace') +'</td>'
+			+ '<td>'+ $(this).data('processstate') +'</td>'
+			+ '</tr>';
+		tag += '<tr><td colspan="2">'+ $(this).data('carenm') +'</td>'
+			+ '<td colspan="7" class="left">'+ $(this).data('careaddr') +'</td>'
+			+ '<td colspan="2">'+ $(this).data('caretel') +'</td>'
+			+ '</tr>';
+			
 		});
 	}
+	}
 	tag += '</table>';
-	$('#data-list').html( tag );
+	$('#data-list').html(tag);
 	
 }
 function animal_grid_data(data, type){
 	var tag = '<ul class="animal grid">';
+
+	if( ( type && data.length==0 ) || (!type && data.length==1) ){
+		tag += '<li style="width:100%; height:32px !important">해당 유기동물이 없습니다</li>';
+	}else{	
+		
 	if( type ){
+		
 		data.each(function(){
 			tag += '<li data-filename="'+ this.filename + '" '
 			 + 'data-age="'+ this.age + '" data-sexcd="' + this.sexCd + '" ' 
@@ -228,7 +328,8 @@ function animal_grid_data(data, type){
 			+ '</li>';
 		});
 	}else{
-		var datas; 
+		
+		var datas;
 		data.each(function(){
 			var idx = $(this).index()%4;
 			if( idx==0 ){
@@ -239,56 +340,52 @@ function animal_grid_data(data, type){
 				datas.weight = $(this).children('td:eq(3)').text();
 				datas.colorcd = $(this).children('td:eq(4)').text();
 				datas.happendt = $(this).children('td:eq(5)').text();
-			}else if(idx==1){
-				datas.specialmark = $(this).children('td:eq(0)').text();		
-			
-			}else if(idx==2){
-				datas.processstate = $(this).children('td:eq(1)').text();		
-				datas.happenPlace = $(this).children('td:eq(0)').text();		
+			}else if( idx==1 ){
+				datas.specialmark = $(this).children('td:eq(0)').text();
+			}else if( idx==2 ){
+				datas.processstate = $(this).children('td:eq(1)').text();
+				datas.happenplace = $(this).children('td:eq(0)').text();
+			}else if( idx==3 ){
+				datas.carenm = $(this).children('td:eq(0)').text();
+				datas.careaddr = $(this).children('td:eq(1)').text();
+				datas.caretel = $(this).children('td:eq(2)').text();
 				
-			}else if(idx==3){
-				datas.carenm = $(this).children('td:eq(0)').text();	
-				datas.careaddr = $(this).children('td:eq(1)').text();	
-				datas.caretel = $(this).children('td:eq(2)').text();	
-
 				tag += '<li data-filename="'+ datas.filename + '" '
-				 + 'data-age="'+ datas.age + '" data-sexcd="' + datas.sexcd + '" ' 
-				 + 'data-weight="'+ datas.weight + '" data-colorcd="' + datas.colorcd + '" '
-				 + 'data-processstate="'+ datas.processstate + '" '
-				 + 'data-carenm="'+ datas.carenm + '" '
-				 + 'data-happendt="'+ datas.happendt + '" '
-				 + 'data-specialmark="'+ datas.specialmark + '" '
-				 + 'data-happenplace="'+ datas.happenplace + '" '
-				 + 'data-careaddr="'+ datas.careaddr + '" '
-				 + 'data-caretel="'+ datas.caretel + '" '					 
-				 + '>'
-				+ '<div class="li-top">'
-					+ '<div><img src="'+ datas.filename +'"/></div>'
-					+ '<div class="spec">'
-						+ '<div><span>'+ datas.age +'</span>'
-							 + '<span style="float:right">'+ datas.sexcd +'</span></div>'
-						+ '<div>'+ datas.weight +'</div>'	 
-						+ '<div>'+ datas.colorcd +'</div>'	 
-						+ '<div>'+ datas.processstate +'</div>'	 
+					 + 'data-age="'+ datas.age + '" data-sexcd="' + datas.sexcd + '" ' 
+					 + 'data-weight="'+ datas.weight + '" data-colorcd="' + datas.colorcd + '" '
+					 + 'data-processstate="'+ datas.processstate + '" '
+					 + 'data-carenm="'+ datas.carenm + '" '
+					 + 'data-happendt="'+ datas.happendt + '" '
+					 + 'data-specialmark="'+ datas.specialmark + '" '
+					 + 'data-happenplace="'+ datas.happenplace + '" '
+					 + 'data-careaddr="'+ datas.careaddr + '" '
+					 + 'data-caretel="'+ datas.caretel + '" '					 
+					 + '>'
+					+ '<div class="li-top">'
+						+ '<div><img src="'+ datas.filename +'"/></div>'
+						+ '<div class="spec">'
+							+ '<div><span>'+ datas.age +'</span>'
+								 + '<span style="float:right">'+ datas.sexcd +'</span></div>'
+							+ '<div>'+ datas.weight +'</div>'	 
+							+ '<div>'+ datas.colorcd +'</div>'	 
+							+ '<div>'+ datas.processstate +'</div>'	 
+						+ '</div>'
 					+ '</div>'
-				+ '</div>'
-				+ '<div><span>'+ datas.carenm +'</span>'
-					 + '<span style="float:right">'+ datas.happendt +'</span>'
-				+ '</div>'
-				+ '</li>';
+					+ '<div><span>'+ datas.carenm +'</span>'
+						 + '<span style="float:right">'+ datas.happendt +'</span>'
+					+ '</div>'
+					+ '</li>';
 			}
-			
 		});
-		
+	}
 	}
 	
 	tag += '</ul>';
-	$('#data-list').html( tag );
+	$('#data-list').html(tag);
 	var len = $('.animal li').length;
 	$('#data-list .animal').css('height'
 			, ((len%5>0 ? 1 :0) + Math.floor(len/5)) 
 					* $('.animal li').outerHeight(true) - 20 );
-	
 }
 
 
@@ -357,32 +454,48 @@ $(document)
 	$('#map, #popup-background').css('display', 'none');
 
 }).on('click', '.page_list a', function(){
-	if( $('.pharmacy').length > 0 ) pharmacy_list( $(this).data('page') );
-	else if( $('.animal').length > 0 ) animal_list( $(this).data('page') );
+	if( $('.pharmacy').length>0 ) pharmacy_list( $(this).data('page') );
+	else if( $('.animal').length>0 ) animal_list( $(this).data('page') );
 
 }).on('change', '#pageList', function(){
 	pageList = $(this).val();
-	if( $('.pharmacy').length > 0 ) pharmacy_list(1);
-	else if( $('.animal').length > 0 ) animal_list(1);
+	if( $('.pharmacy').length>0 ) pharmacy_list(1);
+	else if( $('.animal').length>0 ) animal_list(1); 
 
 }).on('click', '.grid-view', function(){
 	//목록형태로 보여지고 있는 경우
 	if( viewType=='list' ){
 		viewType='grid';
-		if( $('.pharmacy').length > 0 ) pharmacy_grid_data( $('.pharmacy tr'), false );
-		else if( $('.animal').length > 0 ) animal_grid_data( $('.animal tr'), false );
+		if( $('.pharmacy').length>0 ) pharmacy_grid_data( $('.pharmacy tr'), false );
+		else if( $('.animal').length>0 ) animal_grid_data( $('.animal tr'), false ); 
 	}
 
 }).on('click', '.list-view', function(){
 	//그리드형태로 보여지고 있는 경우
 	if( viewType=='grid' ){
 		viewType='list';        
-		if( $('.pharmacy').length > 0 ) pharmacy_list_data( $('.pharmacy li'), false );
-		else if( $('.animal').length > 0 ) animal_list_data( $('.animal li'), false );
+		if( $('.pharmacy').length>0 ) pharmacy_list_data( $('.pharmacy li'), false );
+		else if( $('.animal').length>0 ) animal_list_data( $('.animal li'), false );
 	}
-	
-}).on('change', '#sido', function(){
+
+}).on('change', '#sido', function(){ //시도변경
 	animal_list( 1 );
+	animal_sigungu();
+	
+}).on('change', '#upkind', function(){ //축종변경
+	animal_list( 1 );
+	//축종에 따른 품종을 조회
+	animal_kind();
+	
+}).on('change', '#kind', function(){ //품종변경
+	animal_list( 1 );
+	
+}).on('change', '#sigungu', function(){ //시군구변경
+	animal_list(1);
+	animal_shelter();
+	
+}).on('change', '#shelter', function(){ //보호소변경
+	animal_list(1);
 	
 });
 

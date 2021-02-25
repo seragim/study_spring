@@ -109,7 +109,6 @@ public class NoticeController {
 		return "notice/modify";
 	}
 	
-	
 	//공지글삭제처리 요청
 	@RequestMapping("/delete.no")
 	public String delete(int id) {
