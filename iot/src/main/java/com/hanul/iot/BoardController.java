@@ -45,8 +45,7 @@ public class BoardController {
 	}
 	
 	//방명록 댓글변경저장처리 요청
-	@ResponseBody @RequestMapping(value="/board/comment/update"
-							, produces="application/text; charset=utf-8")
+	@ResponseBody @RequestMapping(value="/board/comment/update", produces="application/text; charset=utf-8")
 	public String comment_update( @RequestBody BoardCommentVO vo) {
 		//화면에서 변경입력한 정보를 DB에 저장한 후 호출한 곳으로 간다
 		return service.board_comment_update(vo) > 0 ? "성공^^" : "실패ㅠㅠ";

@@ -64,8 +64,7 @@ public class NoticeController {
 	
 	//공지글수정처리 요청
 	@RequestMapping("/update.no")
-	public String update(NoticeVO vo, MultipartFile file, String filename
-						, HttpSession session) {
+	public String update(NoticeVO vo, MultipartFile file, String filename, HttpSession session) {
 		NoticeVO notice = service.notice_view(vo.getId());
 		String realFile = session.getServletContext().getRealPath("resources")
 							+ "/" + notice.getFilepath();
