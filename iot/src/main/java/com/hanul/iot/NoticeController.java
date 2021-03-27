@@ -160,9 +160,7 @@ public class NoticeController {
 	
 	//공지글목록 조회
 	@RequestMapping("/list.no")
-	public String list(Model model, HttpSession session
-						, @RequestParam(defaultValue = "1") int curPage
-						, String search, String keyword
+	public String list(Model model, HttpSession session, @RequestParam(defaultValue = "1") int curPage, String search, String keyword
 						) {
 //		//임시저장 -----
 //		HashMap<String, Object> map = new HashMap<String, Object>();
